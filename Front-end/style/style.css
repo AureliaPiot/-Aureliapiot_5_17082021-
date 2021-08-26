@@ -1,0 +1,70 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+ul, li{ 
+    list-style: none;
+    padding: 0 ;
+
+}
+a , a:hover{
+    text-decoration: none;
+    color:inherit;
+}
+i{
+    font-size: 2rem;
+}
+
+section{
+    padding: 5rem;
+    flex-wrap:wrap;
+}
+nav .fa-shopping-cart{
+    position: relative;
+
+}
+nav .fa-shopping-cart::after{
+    content:"1";
+    display: block;
+    color:black;
+    position: absolute;
+    top: 4px;
+    font-size: 16px;
+    right: 11px;
+}
+
+footer{
+    padding: 2rem;
+    width: 100%;
+    color:white;
+    background-color: black;
+}
+
+.titleList{
+    margin-bottom:2rem;
+}
+.card{
+    width:20%;
+    margin: 1rem;
+}
+.card-img-top{
+    height: 50vh;
+    object-fit: cover;
+}
+
+.card-text{
+    height: 3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card-price{
+    margin:0;
+    font-size: 1.2rem;
+    font-weight: 600;
+
+}
+.card i{
+    font-size: 1.5rem;
+}
+
+
