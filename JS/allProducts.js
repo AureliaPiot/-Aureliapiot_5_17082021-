@@ -1,5 +1,7 @@
 
 let product= 'cameras';
+// let product= 'teddies';
+
 // cameras
 // teddies
 // furniture
@@ -61,7 +63,7 @@ function getProducts(productToCall){
                 }
                 
                 cards.innerHTML = `
-                    <a href="produit.html?id=${value._id}">
+                    <a href="produit.html?p=${product}&id=${value._id}">
                         <img class="card-img-top" src="${url}" alt="${value.name}">
                         <div class="card-body">
                             <h5 class="card-title">${value.name}</h5>
