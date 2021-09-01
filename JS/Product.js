@@ -5,6 +5,8 @@ let product= Url.get("p")
 let section = document.getElementById('section-product');
 
 
+getProduct(product,id);
+
 function getProduct(param1,param2){
     fetch('http://localhost:3000/api/'+ param1 +'/'+ param2) 
     .then(function(res){
@@ -36,19 +38,24 @@ function getProduct(param1,param2){
                 
         }
         let options = ``;
-      
-        for(let object of value[valueOption]){
-            
-            let i =0;
-            i ++;
-            options +=`
-            <input type="radio" id="option${i}" name="option${i}" value="${object}">
-            <label for="option${i}">${object}</label>
-            
-            `;
-            console.log(object);
-        }
+        // console.log(value[valueOption]);
 
+      for( let i= 0; i< value[valueOption].length; i++ ){
+          if(i==0){
+            options +=`
+            <input type="radio" id="option${i}" name="option" value="${value[valueOption][i]}" checked >
+            <label for="option${i}">${value[valueOption][i]}</label>
+            `;
+            // console.log(i);
+
+          }else{
+            options +=`
+            <input type="radio" id="option${i}" name="option" value="${value[valueOption][i]}">
+            <label for="option${i}">${value[valueOption][i]}</label>
+            `;
+        // console.log(i);
+          }
+      }
 
         productTemplate.innerHTML=`
   
@@ -69,54 +76,80 @@ function getProduct(param1,param2){
 
                 <div class="command-number d-flex flex-column">
                     <label for="quantites">Number:</label>
-                    <input class="input-command" type="number" id="quantites" name="quantites" value="1" min="1" max="100">
+                        <input id="quantites" class="input-number" type="number"  name="quantites" value="1" min="1" max="100" >
                 </div>
 
-                <div class="pdct-newPrice">${price}</div>
-                <button class="btn btn-primary" type="button"><i class="fas fa-cart-plus"></i></button>
+                <div id="pdct-newPrice" class="pdct-newPrice">${price}.00€</div>
+                <button id="btn-Cart" class="btn btn-primary" type="button"><i class="fas fa-cart-plus"></i></button>
             </div>              
         
         `;
         
-
-
+        section.appendChild(productTemplate);    
+// ------------------------------------------------------------------
+        
         // recuperer les données des inputs
-        // verifier les donnée avant l'envois
+        // verifier les donnée avant l'envois | au click sur le bouton
 
-        section.appendChild(productTemplate);
-
-        // let quantites = document.getElementById('quantites').value;
-
-        // quantites.addEventListener('change', (event) => {
-        //     const number = event.target.value
-        //     console.log(number);
-            
-        //   });
-
-        //   quantites.addEventListener('change', updateValue);
-        //   function updateValue(e) {
-        //     let number = e.target.value;
-        //     console.log(number);
-
-        //   }
-        // const getNumber = () =>{
-        //     console.log(quantites);
-            
-        // };
-        // getNumber();
+        let quantites = document.getElementById('quantites');
+        const btnCart = document.getElementById('btn-Cart');
 
 
+        quantites.addEventListener('change', (event) => {
+                const number = event.target.value;
+                let newPrice = price * number;
+                console.log(number);
+                let blockNewPrice = document.getElementById('pdct-newPrice');
+                blockNewPrice.textContent= newPrice+".00€";
+                // console.log(newPrice);
+            });
+ 
 
-    
-    
-    })
+        btnCart.addEventListener('click', (event) => {
+
+                let chosenOptionIndex;
+                for( let i= 0; i< value[valueOption].length; i++ ){
+                    if(document.getElementById(`option${i}`).checked){
+                        chosenOptionIndex = i ;
+                        // console.log('option trouver! = ' + document.getElementById(`option${i}`).value);
+                    }
+                }
+                console.log("id product = " + id);      
+                console.log("option = " + chosenOptionIndex); 
+                console.log("quantite = " + quantites.value);       
+
+                // localStorage.setItem("id",id);
+                // localStorage.setItem("option",chosenOptionIndex);
+                // localStorage.setItem("quantites",quantites.value);   
+
+                // let localObject =localStorage.length;       
+                  
+                // if( id == localStorage.getItem(id) || ){
+                if( localStorage.getItem(id) !== localStorage.getItem(id)){
+
+                    // let quantity = quantites.value;
+                    // quantity++;
+                    // localStorage.remove(id);
+                    localStorage.setItem(id,"option="+chosenOptionIndex+"&quantite="+quantites.value);
+                }
+                else{
+                    localStorage.setItem(id,"option="+chosenOptionIndex+"&quantite="+quantites.value);
+
+                }
+            });
+        
+        
+
+
+    })//2dn then
     
     .catch(function(err){
         console.log('erreur de fetch');
 
     })
-
 };
 
-
-getProduct(product,id);
+{/* <div class="d-flex">
+<span id="decBtn" class="btn-number-decrement btn-number">-</span>
+<span id="incBtn" class="btn-number-increment btn-number">+</span>
+</div> */}

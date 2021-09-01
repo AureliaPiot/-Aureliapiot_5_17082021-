@@ -10,6 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <!--Bootstrap 5.1.0 CSS  -->
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/cart.css">
+
 
 
 
@@ -28,7 +30,167 @@
 
     <main>
 
-        <section id="section-product" class="product-section d-flex">
+        <section id="section-product" class="product-section bg-light ">
+
+        <div class="col-md-8 bg-white table-products">
+            
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">photo</th>
+                    <th scope="col">nom</th>
+                    <th scope="col">description</th>
+                    <th scope="col">option</th>
+                    <th scope="col">quantité</th>
+                    <th scope="col">prix</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                 <tr>
+                    <th scope="row">1</th>
+                    <td><div class="block-photo"></div></td>
+                    <td>Mark</td>
+                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
+                    <td>@mdo</td>
+                    <td><input type="number" name="quantite" id="quantite" min="1" max="100">
+                    </td>
+                    <td>500</td>
+
+                  </tr >
+                  <tr>
+                    <th scope="row">2</th>
+                    <td><div class="block-photo"></div></td>
+                    <td>Mark</td>
+                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
+                    <td>@mdo</td>
+                    <td><input type="number" name="quantite" id="quantite" min="1" max="100"></td>
+                    <td>500</td>
+                  </tr>
+
+                  <tr>
+                    <th scope="row">3</th>
+                    <td><div class="block-photo"></div></td>
+                    <td>Mark</td>
+                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
+                    <td>@mdo</td>
+                    <td><input type="number" name="quantite" id="quantite" min="1" max="100"></td>
+                    <td>500</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td><div class="block-photo"></div></td>
+                    <td>Mark</td>
+                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
+                    <td>@mdo</td>
+                    <td><input type="number" name="quantite" id="quantite" min="1" max="100"></td>
+                    <td>500</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">5</th>
+                    <td><div class="block-photo"></div></td>
+                    <td>Mark</td>
+                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
+                    <td>@mdo</td>
+                    <td><input type="number" name="quantite" id="quantite" min="1" max="100"></td>
+                    <td>500</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">6</th>
+                    <td><div class="block-photo"></div></td>
+                    <td>Mark</td>
+                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
+                    <td>@mdo</td>
+                    <td><input type="number" name="quantite" id="quantite" min="1" max="100"></td>
+                    <td>500</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+<!-- ________________________________________________________________________________________________________ -->
+
+            <div id="resume-price" class="col-md-3 resume-price bg-white">
+                <table class="table">
+                    <tr>
+                        <td>produit</td>
+                        <td>prix</td>
+                    </tr>
+                    <tr>
+                        <td>livraison</td>
+                        <td>prix frais de port</td>
+                    </tr>
+                    <tr>
+                       <td colspan="2">
+                           <button class="btn btn-primary btn-achat">achat</button>
+                       </td> 
+                    </tr>
+
+                </table>
+            </div>
+<!-- ________________________________________________________________________________________________________ -->
+
+            <form class="col-md-8 bg-white forumlaire-panier">
+
+                <fieldset>
+                    <legend><h4>informations de livraison</h4></legend>
+           
+
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="inputLastName">Nom</label>
+                            <input type="text" class="form-control" id="inputLastName" placeholder="nom" required>
+                            <small id="verifInput" class="text-danger">merci de bien renseignée ce champs</small>
+                        </div>
+                        <div class="form-group col">
+                            <label for="inputFirstName">Prenom</label>
+                            <input type="text" class="form-control" id="inputFirstName" placeholder="prenom" required>
+                            <small id="verifInput" class="text-danger">merci de bien renseignée ce champs</small>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label for="country">Pays</label>
+                            <select class="form-select" name ="country" id="country" aria-label="Pays ">
+                                <option value="france">France</option>
+                                <option value="italie">Italie</option>
+                                <option value="espagne">Espagne</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col">
+                            <label for="inputAddress">addresse</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="addresse" required>
+                            <small id="verifInput" class="text-danger">merci de bien renseignée ce champs</small>
+                        </div>
+                        <div class="form-group col">
+                            <label for="inputCity">ville</label>
+                            <input type="text" class="form-control" id="inputCity" placeholder="ville" required>
+                            <small id="verifInput" class="text-danger">merci de bien renseignée ce champs</small>
+                        </div>
+                        <div class="form-group col">
+                            <label for="inputZip">code postal</label>
+                            <input type="text" class="form-control" id="inputZip" placeholder="code postal" required>
+                            <small id="verifInput" class="text-danger">merci de bien renseignée ce champs</small>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail">Email</label>
+                        <input type="email" class="form-control" id="inputEmail" placeholder="Enter email" required>
+                        <small id="verifInput" class="text-danger">merci de bien renseignée ce champs</small>
+                    </div>
+    
+                    <button type="submit" class="btn btn-primary col">Submit</button>
+                </fieldset>
+            </form>
+
+<!-- ________________________________________________________________________________________________________ -->
+
             
         </section>
 

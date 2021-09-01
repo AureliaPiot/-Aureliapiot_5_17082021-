@@ -1,0 +1,50 @@
+.scroll {
+	position: fixed !important;
+	top: 0px !important;
+}
+
+
+.block-photo{
+    height: 5rem;
+    width: 100%;
+    background-color: grey;
+}
+
+#quantite{
+    max-width: 2rem;
+    margin: auto;
+}
+
+
+
+.resume-price{
+    padding: 1rem;
+    position: absolute;
+    top: 150px;
+    right: 130px;
+}
+
+.resume-price tr td:nth-child(2){
+    text-align: end;
+
+}
+
+.btn-achat{
+    width: 100%;
+}
+
+.table-products{
+    padding: 1rem;
+    margin-bottom: 2.5rem;
+}
+.forumlaire-panier{
+    padding: 3rem;
+    margin-bottom: 2.5rem;
+
+}
+.forumlaire-panier .form-group{
+    margin: .5rem 0;
+}
+.forumlaire-panier .form-select{
+    width: auto;
+}

@@ -19,9 +19,9 @@ i{
 
 section{
     padding: 5rem;
-    display: flex;
+    /* display: flex;
     flex-wrap:wrap;
-    justify-content: center;
+    justify-content: space-evenly; */
 
 }
 nav .fa-shopping-cart{
@@ -81,3 +81,43 @@ footer{
     font-size: 0.8rem;
 }
 
+input[type=number] { 
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin: 0; 
+    outline: none;
+}
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    /* -webkit-appearance: ;  */
+    /* appearance: ; */
+    font-size: 1rem;
+    margin: 0; 
+}
+
+/*
+input[type=number],
+.input-number-decrement,
+.input-number-increment{
+    border: 1px solid #ccc
+}
+.input-number-decrement,
+.input-number-increment{
+
+    display: inline-block;
+    width: 30px;
+    line-height: 38px;
+    background: #f1f1f1;
+    color: #444;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.input-number-decrement{
+border-right:none;
+}
+.input-number-increment{
+border-left:none;
+} */
