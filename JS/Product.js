@@ -115,7 +115,16 @@ function getProduct(param1,param2){
         btnCart.addEventListener('click', (event) => {
 
             verifQuantite(quantites.value);
-
+            console.log(verifQuantite(quantites.value));
+            
+            if( verifQuantite(quantites.value) == false){
+            alert('valeur invalide');
+            // faire un affichage
+            return
+            }
+            else{    
+                
+            
                 let chosenOptionIndex;
                 for( let i= 0; i< value[valueOption].length; i++ ){
                     if(document.getElementById(`option${i}`).checked){
@@ -127,6 +136,7 @@ function getProduct(param1,param2){
                 if(localStorage.length === 0){//si il n'y a pas d'elment dans le localStorage, on l'initialise
                     let lenght=localStorage.length;
                     // console.log("(if) lenght = "+ lenght);
+                    console.log('on commence a : '+ length);
                     localStorage.setItem(lenght, id+"&"+chosenOptionIndex+"&"+quantites.value);
                 }else{
                     // let keys = Object.keys(localStorage);
@@ -152,8 +162,8 @@ function getProduct(param1,param2){
 
                     }; //fin boucle 1  
                 };//fin else
-
-            });
+            }
+        });//fin de l'event click
         
         
 
@@ -167,8 +177,11 @@ function getProduct(param1,param2){
 };
 
 function verifQuantite(target){
-    if(target >= 0 ){
-        alert('erreur de quantité')
-        return
+    if(target <= 0 ){
+        // alert('erreur de quantité')
+
+        return false;
+    }else{
+        return true;
     }
 };
