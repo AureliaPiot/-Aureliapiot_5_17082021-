@@ -4,14 +4,9 @@ let product= Url.get("p")
 // console.log(id);
 let section = document.getElementById('section-product');
 // --------------------------------------------
-let reset = document.getElementById("resetButton");
-// console.log(reset);
-reset.addEventListener('click',() =>{
-    localStorage.clear()
-});
-// --------------------------------------------
-
 getProduct(product,id);
+
+// --------------------------------------------
 
 function getProduct(param1,param2){
     fetch('http://localhost:3000/api/'+ param1 +'/'+ param2) 
@@ -128,19 +123,18 @@ function getProduct(param1,param2){
                 let chosenOptionIndex;
                 for( let i= 0; i< value[valueOption].length; i++ ){
                     if(document.getElementById(`option${i}`).checked){
-                        chosenOptionIndex = i ;
+                        chosenOptionIndex = i ; //ici on recupere l'option qui a ete checked apres les avoirs toutes verifier
                         // console.log('option trouver! = ' + document.getElementById(`option${i}`).value);
                     }
                 }
 
-                if(localStorage.length === 0){//si il n'y a pas d'elment dans le localStorage, on l'initialise
+                if(localStorage.length === 0){//si il n'y a pas d'element dans le localStorage, on l'initialise
                     let lenght=localStorage.length;
-                    // console.log("(if) lenght = "+ lenght);
                     console.log('on commence a : '+ length);
-                    localStorage.setItem(lenght, id+"&"+chosenOptionIndex+"&"+quantites.value);
+                    console.log('produit de type = ' + product);
+
+                    localStorage.setItem(lenght,product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value);
                 }else{
-                    // let keys = Object.keys(localStorage);
-                    // console.log("(else) keys = "+ keys);
 
                     for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
                         let key = localStorage.key(i);
@@ -148,10 +142,11 @@ function getProduct(param1,param2){
                         for(let j = 0 ; j <= localStorage.length ; j++ ){// execute la boucle une seconde fois pour comparer si tout les chiffres se suivent bien
                             let itemIndex = localStorage.getItem(j);
                             // console.log(" clef verifier = "+ j);//verification de clef
-                            if(itemIndex == null){//si parmis les chiffres un est sauté, on le recupere pour l'attribué comme clé, il recupere le prochain chiffre aussi (qu'il voit comme manquant)
+                            if(itemIndex == null){//si parmis les chiffres un est sauté, on le recupere pour l'attribué comme clé,sinon il recupere le prochain chiffre (qu'il voit comme manquant) car il ya le "="
+                                console.log('produit de type = ' + product);
                                 console.log(" trouver "+ j);
                                 let indexManquant = j;
-                                localStorage.setItem(indexManquant, id+"&"+chosenOptionIndex+"&"+quantites.value);
+                                localStorage.setItem(indexManquant,product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value);
                                 return indexManquant;
                             }
 
@@ -161,12 +156,9 @@ function getProduct(param1,param2){
    
 
                     }; //fin boucle 1  
-                };//fin else
-            }
+                };//fin else 
+            }//fin else de verification
         });//fin de l'event click
-        
-        
-
 
     })//2dn then
     
@@ -174,10 +166,10 @@ function getProduct(param1,param2){
         console.log('erreur de fetch');
 
     })
-};
+};// fin fonction getProduct
 
 function verifQuantite(target){
-    if(target <= 0 ){
+    if(target <= 0 || target > 100 ){
         // alert('erreur de quantité')
 
         return false;

@@ -23,7 +23,7 @@
             <div class="container-fluid">
               <a class="navbar-brand fs-3" href="index.html">Orinoco</a>
               <a class="nav-link text-white fs-4" href="cart.html"> <i class="fas fa-shopping-cart"></i> cart</a>  
-              <button id="resetButton" class="btn btn-primary btn-achat" style="width:auto">reset localStorage</button>
+              
 <!-- ne pas oublier de la retirer -->
 
             </div>
@@ -56,62 +56,23 @@
                     <td><div class="block-photo"></div></td>
                     <td>Mark</td>
                     <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
-                    <td>@mdo</td>
+                    <td>
+                    <select name="" id="quantitee">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    </td>
                     <td><input type="number" name="quantite" id="quantite" min="1" max="100">
                     </td>
                     <td>500</td>
 
                   </tr >
-                  <tr>
-                    <th scope="row">2</th>
-                    <td><div class="block-photo"></div></td>
-                    <td>Mark</td>
-                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
-                    <td>@mdo</td>
-                    <td><input type="number" name="quantite" id="quantite" min="1" max="100"></td>
-                    <td>500</td>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">3</th>
-                    <td><div class="block-photo"></div></td>
-                    <td>Mark</td>
-                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
-                    <td>@mdo</td>
-                    <td><input type="number" name="quantite" id="quantite" min="1" max="100"></td>
-                    <td>500</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td><div class="block-photo"></div></td>
-                    <td>Mark</td>
-                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
-                    <td>@mdo</td>
-                    <td><input type="number" name="quantite" id="quantite" min="1" max="100"></td>
-                    <td>500</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td><div class="block-photo"></div></td>
-                    <td>Mark</td>
-                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
-                    <td>@mdo</td>
-                    <td><input type="number" name="quantite" id="quantite" min="1" max="100"></td>
-                    <td>500</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">6</th>
-                    <td><div class="block-photo"></div></td>
-                    <td>Mark</td>
-                    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut natus provident sit eaque ullam eveniet sunt, nam dolore impedit labore enim, perferendis fuga libero voluptas vitae excepturi nostrum dignissimos rerum!</td>
-                    <td>@mdo</td>
-                    <td><input type="number" name="quantite" id="quantite" min="1" max="100"></td>
-                    <td>500</td>
-                  </tr>
+                  
                 </tbody>
-              </table>
+              </table> -->
 
-            </div> -->
+            </div>
 <!-- ________________________________________________________________________________________________________ -->
 
             <div id="resume-price" class="col-md-3 resume-price bg-white">
@@ -129,12 +90,17 @@
                            <button class="btn btn-primary btn-achat">achat</button>
                        </td> 
                     </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button id="resetButton" class="btn btn-danger btn-achat" >supprimer le panier</button>
+                        </td>
+                    </tr>
 
                 </table>
             </div>
 <!-- ________________________________________________________________________________________________________ -->
 
-            <form class="col-md-8 bg-white forumlaire-panier">
+            <!-- <form class="col-md-8 bg-white forumlaire-panier">
 
                 <fieldset>
                     <legend><h4>informations de livraison</h4></legend>
@@ -189,7 +155,7 @@
     
                     <button type="submit" class="btn btn-primary col">Submit</button>
                 </fieldset>
-            </form>
+            </form> -->
 
 <!-- ________________________________________________________________________________________________________ -->
 
@@ -204,9 +170,9 @@
                 <div class="listContainer ">
                     <h4 class="titleList text-center"> Nos Produits </h4>
                     <ul class="list">
-                        <li><a href="index.html/?product=cameras">Cameras</a></li>
-                        <li><a href="index.html/?product=teddies">Ours en peluches</a></li>
-                        <li><a href="index.html/?product=furniture">Mobilier</a></li>
+                        <li><a href="index.html?product=cameras">Cameras</a></li>
+                        <li><a href="index.html?product=teddies">Ours en peluches</a></li>
+                        <li><a href="index.html?product=furniture">Mobilier</a></li>
                         
                     </ul>
                 </div>
@@ -247,4 +213,7 @@
 <script src="https://kit.fontawesome.com/14964f6394.js" crossorigin="anonymous"></script>
     <!-- lien fichier JS perso -->
 <script src="JS/cart.js"></script>
+<!-- <script src="JS/cart-Copie.js"></script> -->
+
+
 </html>

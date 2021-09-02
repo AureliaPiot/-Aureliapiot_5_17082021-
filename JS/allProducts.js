@@ -1,14 +1,25 @@
-
-let product= 'cameras';
+let Url = new URLSearchParams(document.location.search.substring(1));
+let product = Url.get("product"); 
+// console.log(product);
+// let product= 'cameras';
 // let product= 'teddies';
 
-// cameras
-// teddies
-// furniture
-
-//faire une fonction qui verifie l'url
 
 let section = document.getElementById('section-product');
+if(product == null){
+    product= 'cameras';
+    getProducts(product);
+    // console.log(product);
+}
+else{
+    getProducts(product);
+}
+
+
+
+
+
+
 
 
 function getProducts(productToCall){
@@ -90,7 +101,6 @@ function getProducts(productToCall){
         });
 }
 
-getProducts(product);
 
 
 
