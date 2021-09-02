@@ -3,7 +3,13 @@ let id = Url.get("id");
 let product= Url.get("p")
 // console.log(id);
 let section = document.getElementById('section-product');
-
+// --------------------------------------------
+let reset = document.getElementById("resetButton");
+// console.log(reset);
+reset.addEventListener('click',() =>{
+    localStorage.clear()
+});
+// --------------------------------------------
 
 getProduct(product,id);
 
@@ -11,7 +17,7 @@ function getProduct(param1,param2){
     fetch('http://localhost:3000/api/'+ param1 +'/'+ param2) 
     .then(function(res){
         if(res.ok){
-            console.log(res);
+            // console.log(res);
             return res.json();
         }       
     })
@@ -98,14 +104,17 @@ function getProduct(param1,param2){
         quantites.addEventListener('change', (event) => {
                 const number = event.target.value;
                 let newPrice = price * number;
-                console.log(number);
+                // console.log(number);
                 let blockNewPrice = document.getElementById('pdct-newPrice');
                 blockNewPrice.textContent= newPrice+".00€";
                 // console.log(newPrice);
             });
  
+    console.log( "localLength= " + localStorage.length)
 
         btnCart.addEventListener('click', (event) => {
+
+            verifQuantite(quantites.value);
 
                 let chosenOptionIndex;
                 for( let i= 0; i< value[valueOption].length; i++ ){
@@ -114,28 +123,36 @@ function getProduct(param1,param2){
                         // console.log('option trouver! = ' + document.getElementById(`option${i}`).value);
                     }
                 }
-                console.log("id product = " + id);      
-                console.log("option = " + chosenOptionIndex); 
-                console.log("quantite = " + quantites.value);       
 
-                // localStorage.setItem("id",id);
-                // localStorage.setItem("option",chosenOptionIndex);
-                // localStorage.setItem("quantites",quantites.value);   
+                if(localStorage.length === 0){//si il n'y a pas d'elment dans le localStorage, on l'initialise
+                    let lenght=localStorage.length;
+                    // console.log("(if) lenght = "+ lenght);
+                    localStorage.setItem(lenght, id+"&"+chosenOptionIndex+"&"+quantites.value);
+                }else{
+                    // let keys = Object.keys(localStorage);
+                    // console.log("(else) keys = "+ keys);
 
-                // let localObject =localStorage.length;       
-                  
-                // if( id == localStorage.getItem(id) || ){
-                if( localStorage.getItem(id) !== localStorage.getItem(id)){
+                    for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
+                        let key = localStorage.key(i);
 
-                    // let quantity = quantites.value;
-                    // quantity++;
-                    // localStorage.remove(id);
-                    localStorage.setItem(id,"option="+chosenOptionIndex+"&quantite="+quantites.value);
-                }
-                else{
-                    localStorage.setItem(id,"option="+chosenOptionIndex+"&quantite="+quantites.value);
+                        for(let j = 0 ; j <= localStorage.length ; j++ ){// execute la boucle une seconde fois pour comparer si tout les chiffres se suivent bien
+                            let itemIndex = localStorage.getItem(j);
+                            // console.log(" clef verifier = "+ j);//verification de clef
+                            if(itemIndex == null){//si parmis les chiffres un est sauté, on le recupere pour l'attribué comme clé, il recupere le prochain chiffre aussi (qu'il voit comme manquant)
+                                console.log(" trouver "+ j);
+                                let indexManquant = j;
+                                localStorage.setItem(indexManquant, id+"&"+chosenOptionIndex+"&"+quantites.value);
+                                return indexManquant;
+                            }
 
-                }
+
+                        };//fin boucle 2        
+   
+   
+
+                    }; //fin boucle 1  
+                };//fin else
+
             });
         
         
@@ -149,7 +166,9 @@ function getProduct(param1,param2){
     })
 };
 
-{/* <div class="d-flex">
-<span id="decBtn" class="btn-number-decrement btn-number">-</span>
-<span id="incBtn" class="btn-number-increment btn-number">+</span>
-</div> */}
+function verifQuantite(target){
+    if(target >= 0 ){
+        alert('erreur de quantité')
+        return
+    }
+};
