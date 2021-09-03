@@ -97,19 +97,19 @@ function getProduct(param1,param2){
         // recuperer les données des inputs
         // verifier les donnée avant l'envois | au click sur le bouton
 
-        let quantites = document.getElementById('quantites');
-        const btnCart = document.getElementById('btn-Cart');
+    let quantites = document.getElementById('quantites');
+    const btnCart = document.getElementById('btn-Cart');
 
 
-        quantites.addEventListener('change', (event) => { // au changement de la quantité, on recupe la valeur de l'input pout la * par le prix du produit
-                const number = event.target.value;
-                let newPrice = price * number;
-                // console.log(number);
-                let blockNewPrice = document.getElementById('pdct-newPrice');
-                blockNewPrice.textContent= newPrice+".00€";
-                // console.log(newPrice);
-            });//fin event
- 
+    quantites.addEventListener('change', (event) => { // au changement de la quantité, on recupe la valeur de l'input pout la * par le prix du produit
+            const number = event.target.value;
+            let newPrice = price * number;
+            // console.log(number);
+            let blockNewPrice = document.getElementById('pdct-newPrice');
+            blockNewPrice.textContent= newPrice+".00€";
+            // console.log(newPrice);
+        });//fin event
+
     console.log( "localLength= " + localStorage.length)
 
         btnCart.addEventListener('click', (event) => {//au click on verifi la valeur avec une fonction 
@@ -142,10 +142,62 @@ function getProduct(param1,param2){
                     localStorage.setItem(lenght,product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value);
                 }else{
 
+                    //faire une boucle qui compare la valeur a ajouter a toute celle du localStorage
+                    
+                    for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
+                        let key = localStorage.key(i);
+                        console.log(key)
+                        let item = localStorage.getItem(i);//on recupe la valeur de l'item deja present
+                        let itemSplit = item.split("&")
+                        /*  itemSplit[0] = produit
+                            itemSplit[1] = id
+                            itemSplit[2] = option
+                            itemSplit[3] = quantité
+                        */
+                       
+                       let valueToCompare =product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value; //on recupe la valeur a ajouter
+                        // console.log("valeur1="+item +" de la cle " + key);
+                        // console.log("valeur2="+valueToCompare);
+                        let produitTrue=itemSplit[0] == product;
+                        let idTrue=itemSplit[1] == id;
+                        let optionTrue=itemSplit[2] == chosenOptionIndex;
+                        console.log(itemSplit[0]+ " = " +product +" donc "+ produitTrue);
+                        console.log(itemSplit[1]+ " = " +id+" donc "+idTrue );
+                        console.log(itemSplit[2]+ " = " +chosenOptionIndex+" donc "+optionTrue );
+
+                        if(itemSplit[0] == product && itemSplit[1] == id && itemSplit[2] == chosenOptionIndex){//si les valeurs que l'on ajoute est les meme que des valeurs deja enregistre alors | on recupere la quantité que l'on ajoute a l'item trouver
+                        /*
+                            si :
+                             - le produit
+                             - l'id
+                             - l'option choisie
+                             sont les meme qu'un item deja enregistrer, alors on incremente juste les quantiés a l'item qui a deja ces valeurs
+
+                        */
+                            // console.log("les valeur sont bien similaire ");
+                            console.log("les valeur entrer sont similaire a  = "+ key);
+   
+
+
+
+                            return//qui termine le else sans jouer les 2 boucles
+
+                        }//else sinon on execute les 2 boucle qui compare l'index
+                        else{
+                            console.log("nan ");
+                            
+                            
+                        }//fin du else
+                    }//fin de for
+
+
+
+
+
                     for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
                         // let key = localStorage.key(i);
 
-                        for(let j = 0 ; j <= localStorage.length ; j++ ){// execute la boucle une seconde fois pour comparer si tout les chiffres se suivent bien
+                        for(let j = 0 ; j <= localStorage.length ; j++ ){// execute la boucle une seconde fois pour comparer si tout les chiffres existent bien
                             let itemIndex = localStorage.getItem(j);
                             // console.log(" clef verifier = "+ j);//verification de clef
                             if(itemIndex == null){//si parmis les chiffres un est sauté, on le recupere pour l'attribué comme clé,sinon il recupere le prochain chiffre (qu'il voit comme manquant) car il ya le "="

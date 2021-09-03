@@ -57,6 +57,7 @@ function creationDuTableau(){
             <table class="table">
                 <thead>
                 <tr>
+                    <th scope="col">cle</th>
                     <th scope="col">photo</th>
                     <th scope="col">nom</th>
                     <th scope="col">description</th>
@@ -138,6 +139,10 @@ function getProductCart(param1,param2,param3,param4,param5){
 
             let tr= document.createElement('tr');
 
+            let tdCle= document.createElement('td');
+                tdCle.innerHTML=`${param5}`;
+
+
             let tdImg= document.createElement('td');
                 tdImg.innerHTML=`<img  class="block-photo" src="${url}" alt="${value.name}">`;
 
@@ -159,6 +164,8 @@ function getProductCart(param1,param2,param3,param4,param5){
             let tdButtonSuppr= document.createElement('td');
                 tdButtonSuppr.innerHTML=`<button id="supprItem${param5}"  class="btn btn-danger btn-supprItem"  ><i class="fas fa-trash-alt"></i></button>`;
 
+            tr.appendChild(tdCle);
+            
             tr.appendChild(tdImg);
             tr.appendChild(tdName);
             tr.appendChild(tdDescription);
