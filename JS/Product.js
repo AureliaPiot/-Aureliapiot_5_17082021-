@@ -107,11 +107,10 @@ function getProduct(param1,param2){
  
     console.log( "localLength= " + localStorage.length)
 
-        btnCart.addEventListener('click', (event) => {
+        btnCart.addEventListener('click', (event) => {//au click on verifi la valeur avec une fonction
 
             verifQuantite(quantites.value);
-            console.log(verifQuantite(quantites.value));
-            
+            console.log(verifQuantite(quantites.value));// retourne un boolean
             if( verifQuantite(quantites.value) == false){
             alert('valeur invalide');
             // faire un affichage

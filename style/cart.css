@@ -1,8 +1,26 @@
+.panier-vide{
+    background: white;
+    width: fit-content;
+    padding: 2rem;
+    font-size: 3rem;
+    border-radius: 15px;
+    border: 1px solid #e3e3e3;
+    margin: auto;
+}
+
 .scroll {
 	position: fixed !important;
 	top: 0px !important;
 }
 
+.table-products{
+    padding: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+tr{
+    vertical-align: middle;
+}
 
 .block-photo{
     /* height: 5rem; */
@@ -11,12 +29,13 @@
 }
 
 #option-select{
-    width: 100%;
+    width: -webkit-fill-available;
+    width: -moz-available;
 }
  #quantite{
      text-align: center;
-     /* max-width: 2rem; 
-     margin: auto;  */
+     max-width: 4rem; 
+     margin: auto; 
 } 
 
 
@@ -37,10 +56,9 @@
     width: 100%;
 }
 
-.table-products{
-    padding: 1rem;
-    margin-bottom: 2.5rem;
-}
+
+
+
 .forumlaire-panier{
     padding: 3rem;
     margin-bottom: 2.5rem;

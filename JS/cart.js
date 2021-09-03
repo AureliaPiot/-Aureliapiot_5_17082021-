@@ -1,10 +1,4 @@
 // console.log('ici?');
-
-let reset = document.getElementById("resetButton");
-reset.addEventListener('click',() =>{
-    localStorage.clear()
-});
-
 const section = document.getElementById('section-product');
 // console.log(section);
 
@@ -14,11 +8,14 @@ const section = document.getElementById('section-product');
 */
 if( localStorage.length == 0 ){
 //affiche un message
-}
+panierVide()
+
+}//fin du if
 
 else{
     creationDuTableau();
-    resumePriceScroll();
+    resumPrice()
+    // resumePriceScroll();
 // ---------------------
 
 
@@ -26,8 +23,16 @@ else{
 
 //declaration des fonctions____________________________________________________________________________________________________________
 
-//afficahge dans la nav----------------------------------------------------------------
 
+//Message panier vide----------------------------------------------------------------
+function panierVide(){
+    let message = document.createElement('div');
+message.classList.add('panier-vide');
+message.innerHTML =`
+    <p>Panier Vide !</p>
+    `;
+section.appendChild(message);    
+}
 
 //creation du tableau----------------------------------------------------------------
 
@@ -72,9 +77,9 @@ function creationDuTableau(){
         section.appendChild(panier);
         
         getProductCart(info[0],info[1],info[2],info[3],key);
-
+        
     }//fin boucle for
-
+    
  }//fin de creationDuTableau()
 
 //GetProductCart function----------------------------------------------------------------
@@ -97,13 +102,13 @@ function getProductCart(param1,param2,param3,param4,param5){
         let optionName = ``;
         let valueOption = "";
         switch (param1){
-            case 'cameras': optionName = "L'objectif";
+            case 'cameras': optionName = "objectif";
                             valueOption = "lenses";
               break;
-            case 'teddies':optionName ="La couleur";
+            case 'teddies':optionName ="couleur";
                            valueOption = "colors";
               break;
-            case 'furniture':optionName = "Le verni";
+            case 'furniture':optionName = "verni";
                             valueOption = "varnish";
               break;
             default: console.log('aucun produit trouvé');                      
@@ -113,7 +118,6 @@ function getProductCart(param1,param2,param3,param4,param5){
 
 
         let options = ``;
-        
         for( let i= 0; i< value[valueOption].length; i++ ){//la c'est pour les options
             
         // console.log("valeur de l'option " + value[valueOption]);
@@ -144,16 +148,16 @@ function getProductCart(param1,param2,param3,param4,param5){
                 tdDescription.innerHTML=`${value.description}`;    
 
             let tdOptions= document.createElement('td');
-                tdOptions.innerHTML=`<select id="option-select">${options}</select>`;
+                tdOptions.innerHTML=`<div>  <p>${optionName} :</p>  <select id="option-select">${options}</select>  </div>`;
                 
             let tdInputNumber= document.createElement('td');
                 tdInputNumber.innerHTML=`<input type="number" name="quantite" id="quantite" min="1" max="100" value="${param4}">`;
 
             let tdPrice= document.createElement('td');
-                tdPrice.innerHTML=`${price}€00`;
+                tdPrice.innerHTML=`<p class="price">${price}€00</p>`;
 
             let tdButtonSuppr= document.createElement('td');
-                tdButtonSuppr.innerHTML=`<button id="supprItem${param5}"  class="btn btn-primary btn-achat btn-supprItem"  >Suppr</button>`;
+                tdButtonSuppr.innerHTML=`<button id="supprItem${param5}"  class="btn btn-danger btn-supprItem"  ><i class="fas fa-trash-alt"></i></button>`;
 
             tr.appendChild(tdImg);
             tr.appendChild(tdName);
@@ -166,11 +170,8 @@ function getProductCart(param1,param2,param3,param4,param5){
             tbody.appendChild(tr);
             
             tdButtonSuppr.addEventListener('click',function(){
-                // alert('a bon ?'+param5);
-                // console.log('element ° '+param5+' supprimer du localStorage');
-
-                // localStorage.removeItem(param5);
                 supprItem(param5);
+                refresh()
             })
 
             tdInputNumber.addEventListener('change', (event) => {
@@ -180,32 +181,75 @@ function getProductCart(param1,param2,param3,param4,param5){
                 blockNewPrice.textContent= newPrice+".00€";
             });
 
-
-                
-        
-
         return
-
 
     })//2dn then
     
     .catch(function(err){
-        console.log('erreur de fetch');
+        console.log('erreur de fetch | aucun produit trouvé');
 
     })
     return
 };//fin getProductCart
 
 
+// refresh function----------------------------------------------------------------
+function refresh(){
+   document.location.reload();
+   
+}
+
 // supprItem function----------------------------------------------------------------
  function supprItem(param1){
+    //  alert('etes-vous sur?')
      console.log("item "+param1);
-     alert('etes-vous sur?')
-    //  localStorage.removeItem(param1);
+     localStorage.removeItem(param1);
 
 };
 
+// resum price function----------------------------------------------------------------
+//on recupere tout les prix pour les additionner
+function resumPrice(){
+    let blocResume = document.createElement('div');
+    blocResume.classList.add('col-md-3','resume-price','bg-white');
+    blocResume.id = 'resume-price';
+    blocResume.innerHTML=`
+        <table class="table">
+            <tr>
+                <td>produit(${localStorage.length})</td>
+                <td>prix</td>
+            </tr>
+            <tr>
+                <td>livraison</td>
+                <td>prix frais de port</td>
+            </tr>
+            <tr>
+            <td colspan="2">
+                <button class="btn btn-primary btn-achat">achat</button>
+            </td> 
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="resetButton" class="btn btn-danger btn-achat" >supprimer le panier</button>
+                </td>
+            </tr>
 
+        </table>
+    `;
+    section.appendChild(blocResume);
+    resumePriceScroll()
+    
+    let reset = document.getElementById("resetButton");
+    reset.addEventListener('click',() =>{
+        localStorage.clear()
+        refresh()
+        
+    });
+
+    // let allPriceBlock= document.getElementsByClassName("price");
+    // console.log(allPriceBlock.length);
+
+}
 
 // scroll function----------------------------------------------------------------
 function resumePriceScroll(){
@@ -213,18 +257,14 @@ function resumePriceScroll(){
 
     // recuperer la hauteur par rapport au margine de la fenetre
 	// let	windowHeight = document.documentElement.clientHeight;/*hauteur de la fenetre*/
-    // console.log('hauteur: '+windowHeight);
-    
+    // console.log('hauteur: '+windowHeight);    
     // console.log('hauteur offset: '+window.pageYOffset);
 
-		
-		// if (window.pageYOffset + windowHeight >= resumePrice ) {
 		if (window.pageYOffset > 150 /*&& window.pageYOffset < 700*/ ) {
             document.getElementById('resume-price').classList.add("scroll");
 		}
         else{
             document.getElementById('resume-price').classList.remove("scroll");
-            // document.getElementById('resume-price').style.top =window.pageYOffset + "px";
             // recuperer la hauteur du formulaire pour la donnée comme limite au bloc de prix
 
         }
