@@ -142,16 +142,16 @@ function getProduct(param1,param2){
                     localStorage.setItem(lenght,product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value);
                 }else{
 
-                    //faire une boucle qui compare la valeur a ajouter a toute celle du localStorage
+                    //BOUCLE COMPARATIF DES VALEURS du localStorage-____________________________________________________________________________
                     
                     for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
                         let key = localStorage.key(i);//la cle a l'index 0 n'est pas forcement egal a 0, ils sont rangé bizarement dans le localStorage
                         console.log("cle = "+key)
                         console.log("i= "+i)
 
-                        let item = localStorage.getItem(key);//on recupe la valeur de l'item a comparer avec "key" et non "I" car les cle ne sont pas forcement dans l'ordre (ex 1-2-3 ect) alors que I , oui
-                        //
-                        let itemSplit = item.split("&")
+                        let item = localStorage.getItem(key);//on recupe la valeur de l'item a comparer avec "key" et non "I" car les cle ne sont pas forcement dans l'ordre (ex 1-2-3 ect) alors que I , oui.
+                        
+                        let itemSplit = item.split("&")//on casse la valeur qui contient les info a comparer
 
                         /*  itemSplit[0] = produit
                             itemSplit[1] = id
@@ -159,20 +159,21 @@ function getProduct(param1,param2){
                             itemSplit[3] = quantité
                         */
                        
-                       let valueToCompare =product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value; //on recupe la valeur a ajouter
+                        //    let valueToCompare =product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value; //on recupe la valeur a ajouter
+                            
+                            // let produitTrue=itemSplit[0] == product;
+                            // let idTrue=itemSplit[1] == id;
+                            // let optionTrue=itemSplit[2] == chosenOptionIndex;
 
-                        // console.log("valeur1="+item +" de la cle " + key);
-                        // console.log("valeur2="+valueToCompare);
-                        
-                        let produitTrue=itemSplit[0] == product;
-                        let idTrue=itemSplit[1] == id;
-                        let optionTrue=itemSplit[2] == chosenOptionIndex;
+                        //--------TEST des valeurs dans le console.log
+                            // console.log(itemSplit[0]+ " = " +product +" donc "+ produitTrue);
+                            // console.log(itemSplit[1]+ " = " +id+" donc "+idTrue );
+                            // console.log(itemSplit[2]+ " = " +chosenOptionIndex+" donc "+optionTrue );
 
-                        console.log(itemSplit[0]+ " = " +product +" donc "+ produitTrue);
-                        console.log(itemSplit[1]+ " = " +id+" donc "+idTrue );
-                        console.log(itemSplit[2]+ " = " +chosenOptionIndex+" donc "+optionTrue );
+                        //--------------------------------------------------------------------------
 
-                        if(itemSplit[0] == product && itemSplit[1] == id && itemSplit[2] == chosenOptionIndex){//si les valeurs que l'on ajoute est les meme que des valeurs deja enregistre alors | on recupere la quantité que l'on ajoute a l'item trouver
+                        if(itemSplit[0] == product && itemSplit[1] == id && itemSplit[2] == chosenOptionIndex){
+                            //si les valeurs que l'on ajoute est les meme que des valeurs deja enregistre alors | on recupere la quantité que l'on ajoute a l'item trouver
                         /*
                             si :
                              - le produit
@@ -182,9 +183,20 @@ function getProduct(param1,param2){
 
                         */
                             // console.log("les valeur sont bien similaire ");
+                            let newQuantity = Number(itemSplit[3]) + Number(quantites.value); //parseInt() = pour les nombres entier, Number() = si la varaiable a un nombre a virgule
+                            console.log("on calcul  = "+ itemSplit[3] +" + "+ quantites.value +" = "+ newQuantity);
+                            console.log(newQuantity)
                             console.log("les valeur entrer sont similaire a  = "+ key);
-   
+                          
+                            if(newQuantity <= 100){//second conditionnel pour ne pas que la quantité depasse 100
+                                localStorage.setItem(key,product+"&"+id+"&"+chosenOptionIndex+"&"+ newQuantity)
+                                console.log("quantite ajouter = "+ newQuantity);
 
+                            }
+                            else{
+                                console.log("quantite maximal atteinte");
+
+                            }
 
 
                             return//qui termine le else sans jouer les 2 boucles
@@ -199,12 +211,12 @@ function getProduct(param1,param2){
 
 
 
+                    //DOUBLE BOUCLE COMPARATIF DES CLE du localStorage____________________________________________________________________________
 
 
                     for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
-                        // let key = localStorage.key(i);
 
-                        for(let j = 0 ; j <= localStorage.length ; j++ ){// execute la boucle une seconde fois pour comparer si tout les chiffres existent bien
+                        for(let j = 0 ; j <= localStorage.length ; j++ ){// execute la boucle une seconde fois pour comparer si tout les chiffres existent bien( si il ya 3 element dans le localStorage, on verifie que les cle corresponde a 0,1,2 et 3 avec le signe égale)
                             let itemIndex = localStorage.getItem(j);
                             // console.log(" clef verifier = "+ j);//verification de clef
                             if(itemIndex == null){//si parmis les chiffres un est sauté, on le recupere pour l'attribué comme clé,sinon il recupere le prochain chiffre (qu'il voit comme manquant) car il ya le "="

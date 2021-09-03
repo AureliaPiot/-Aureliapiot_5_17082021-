@@ -142,6 +142,68 @@ function getProduct(param1,param2){
                     localStorage.setItem(lenght,product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value);
                 }else{
 
+                    // -----------------------------------------------------------------------
+                                        
+                    for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
+                        let key = localStorage.key(i);//la cle a l'index 0 n'est pas forcement egal a 0, ils sont rangé bizarement dans le localStorage
+                        console.log("cle = "+key)
+                        console.log("i= "+i)
+
+                        let item = localStorage.getItem(key);//on recupe la valeur de l'item a comparer avec "key" et non "I" car les cle ne sont pas forcement dans l'ordre (ex 1-2-3 ect) alors que I , oui
+                        //
+                        let itemSplit = item.split("&")
+
+                        /*  itemSplit[0] = produit
+                            itemSplit[1] = id
+                            itemSplit[2] = option
+                            itemSplit[3] = quantité
+                        */
+                    
+                    //    let valueToCompare =product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value; //on recupe la valeur a ajouter
+
+                        // console.log("valeur1="+item +" de la cle " + key);
+                        // console.log("valeur2="+valueToCompare);
+                        
+                        let produitTrue=itemSplit[0] == product;
+                        let idTrue=itemSplit[1] == id;
+                        let optionTrue=itemSplit[2] == chosenOptionIndex;
+
+                        console.log(itemSplit[0]+ " = " +product +" donc "+ produitTrue);
+                        console.log(itemSplit[1]+ " = " +id+" donc "+idTrue );
+                        console.log(itemSplit[2]+ " = " +chosenOptionIndex+" donc "+optionTrue );
+
+                        if(itemSplit[0] == product && itemSplit[1] == id && itemSplit[2] == chosenOptionIndex){//si les valeurs que l'on ajoute est les meme que des valeurs deja enregistre alors | on recupere la quantité que l'on ajoute a l'item trouver
+                        /*
+                            si :
+                            - le produit
+                            - l'id
+                            - l'option choisie
+                            sont les meme qu'un item deja enregistrer, alors on incremente juste les quantiés a l'item qui a deja ces valeurs
+
+                        */
+                            // console.log("les valeur sont bien similaire ");
+                            console.log("les valeur entrer sont similaire a  = "+ key);
+
+
+
+
+                            return//qui termine le else sans jouer les 2 boucles
+
+                        }//else sinon on execute les 2 boucle qui compare l'index
+                        else{
+                            console.log("nan ");
+                            
+                            
+                        }//fin du else
+                    }//fin for, comparatif de valeur
+
+
+
+
+
+
+                    //-------------------------------------------------------------------------------------
+
                     for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
                         // let key = localStorage.key(i);
 
