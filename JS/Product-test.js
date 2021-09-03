@@ -130,7 +130,7 @@ function getProduct(param1,param2){
                 for( let i= 0; i< value[valueOption].length; i++ ){
                     if(document.getElementById(`option${i}`).checked){
                         chosenOptionIndex = i ; //ici on recupere l'option qui a ete checked apres les avoirs toutes verifier
-                        // console.log('option trouver! = ' + document.getElementById(`option${i}`).value);
+                        console.log('option trouver! = ' + document.getElementById(`option${i}`).value);
                     }
                 }
 
@@ -145,10 +145,14 @@ function getProduct(param1,param2){
                     //faire une boucle qui compare la valeur a ajouter a toute celle du localStorage
                     
                     for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
-                        let key = localStorage.key(i);
-                        console.log(key)
-                        let item = localStorage.getItem(i);//on recupe la valeur de l'item deja present
+                        let key = localStorage.key(i);//la cle a l'index 0 n'est pas forcement egal a 0, ils sont rangé bizarement dans le localStorage
+                        console.log("cle = "+key)
+                        console.log("i= "+i)
+
+                        let item = localStorage.getItem(key);//on recupe la valeur de l'item a comparer avec "key" et non "I" car les cle ne sont pas forcement dans l'ordre (ex 1-2-3 ect) alors que I , oui
+                        //
                         let itemSplit = item.split("&")
+
                         /*  itemSplit[0] = produit
                             itemSplit[1] = id
                             itemSplit[2] = option
@@ -156,11 +160,14 @@ function getProduct(param1,param2){
                         */
                        
                        let valueToCompare =product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value; //on recupe la valeur a ajouter
+
                         // console.log("valeur1="+item +" de la cle " + key);
                         // console.log("valeur2="+valueToCompare);
+                        
                         let produitTrue=itemSplit[0] == product;
                         let idTrue=itemSplit[1] == id;
                         let optionTrue=itemSplit[2] == chosenOptionIndex;
+
                         console.log(itemSplit[0]+ " = " +product +" donc "+ produitTrue);
                         console.log(itemSplit[1]+ " = " +id+" donc "+idTrue );
                         console.log(itemSplit[2]+ " = " +chosenOptionIndex+" donc "+optionTrue );
@@ -188,7 +195,7 @@ function getProduct(param1,param2){
                             
                             
                         }//fin du else
-                    }//fin de for
+                    }//fin for, comparatif de valeur
 
 
 
