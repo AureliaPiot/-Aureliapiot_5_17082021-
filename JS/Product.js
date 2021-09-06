@@ -114,11 +114,14 @@ function getProduct(param1,param2){
 
         btnCart.addEventListener('click', (event) => {//au click on verifi la valeur avec une fonction 
 
+            
+
+
             verifQuantite(quantites.value);
             console.log(verifQuantite(quantites.value));// retourne un boolean
 
 
-            if( verifQuantite(quantites.value) == false){//si la valeur de quantite est fausse alors on affiche juste un message
+            if( verifQuantite(quantites.value) == false ){//si la valeur de quantite est fausse et qu'il y a une virgule  alors on affiche juste un message 
             alert('valeur invalide');
             // faire un affichage
             return
@@ -250,7 +253,8 @@ function getProduct(param1,param2){
 };// fin fonction getProduct
 
 function verifQuantite(target){
-    if(target <= 0 || target > 100 ){
+    let isNumberValid = target.match(/^([0-9]){1,3}$/);// regex pour evité les virgules)
+    if(target <= 0 || target > 100 || isNumberValid == null ){
         // alert('erreur de quantité')
 
         return false;

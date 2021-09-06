@@ -196,7 +196,7 @@ function getProductCart(param1,param2,param3,param4,param5){
 
             tdInputNumber.addEventListener('change', (event) => {
                 const number = event.target.value;
-                let isNumberValid = number.match(/^([0-9]){1,3}$/);// verification des valeurs entrées
+                let isNumberValid = number.match(/^([0-9]){1,3}$/);// regex verification des valeurs entrées (on evite les virgules)
 
 
                 if(number<0 || number >100 || isNumberValid == null ){
