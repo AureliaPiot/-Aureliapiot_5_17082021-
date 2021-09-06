@@ -13,9 +13,11 @@ panierVide()
 }//fin du if
 
 else{
-    creationDuTableau();
     resumPrice()
+    creationDuTableau();
+    getAllPrice();
     // resumePriceScroll();
+    form();
 // ---------------------
 
 
@@ -44,6 +46,7 @@ function creationDuTableau(){
     for(let i =0; i < localStorage.length ; i++ ){ // on parcour le contenu du local storage
         let key = localStorage.key(i); // on stock la clef  a la place  0 , puis a la place 1 , puis a la place 2 ect...
         let info = localStorage.getItem(key).split("&"); // on decoupe la valeur de la cle actuel a chaque "&" les rengeant dans un tableau
+
 
         // console.log("info "+info);//retourne un tableau.
         // console.log("type =  "+info[0] +"|| id "+info[1]+"|| option n° "+ info[2] +"|| quantite "+info[3] );//retourne l'info du tableau a l'index indiquer.
@@ -76,7 +79,7 @@ function creationDuTableau(){
 
         `; 
         section.appendChild(panier);
-        
+
         getProductCart(info[0],info[1],info[2],info[3],key);
         
     }//fin boucle for
@@ -97,9 +100,8 @@ function getProductCart(param1,param2,param3,param4,param5){
     .then(function(value){
         // console.log(value);
         let url = value.imageUrl.slice(22);
-        let price = value.price / 100; 
-        // console.log(price+ "€");
-        
+        let price = value.price / 100 * param4 ; 
+
         let optionName = ``;
         let valueOption = "";
         switch (param1){
@@ -126,7 +128,7 @@ function getProductCart(param1,param2,param3,param4,param5){
             if(i== param3){ //on compare la valeur, si elle correspond a celle en position = a param3 (donc a 0 = 1er tour  (0=i), ou a 1 = 2nd tour(i=1))
                 // (value[valueOption][i]== value[valueOption][param3]){  possible avec cette ecriture
 
-                options +=`<option value="${value[valueOption][i]}" selected>${value[valueOption][i]}</option>`;
+                options +=`<option value="${value[valueOption][i]}" selected>${value[valueOption][i]}</option>`; // le "selected" en plus
             // console.log("valeur de l'option check " + value[valueOption][i]);
 
             }else{
@@ -134,6 +136,11 @@ function getProductCart(param1,param2,param3,param4,param5){
             // console.log("valeur de l'option PAS check " + value[valueOption][i] +" comparer a " + value[valueOption][param3]);
             }
         }//fin de boucle for option
+
+        //envoie du prix dans la boite de resumé
+
+        //--------------------------------------
+
 
         let tbody = document.getElementById('productSpace');
 
@@ -156,10 +163,10 @@ function getProductCart(param1,param2,param3,param4,param5){
                 tdOptions.innerHTML=`<div>  <p>${optionName} :</p>  <select id="option-select">${options}</select>  </div>`;
                 
             let tdInputNumber= document.createElement('td');
-                tdInputNumber.innerHTML=`<input type="number" name="quantite" id="quantite" min="1" max="100" value="${param4}">`;
+                tdInputNumber.innerHTML=`<input type="number" name="quantite" id="quantite-Item${param2}" min="1" max="100" value="${param4}">`;
 
             let tdPrice= document.createElement('td');
-                tdPrice.innerHTML=`<p class="price">${price}€00</p>`;
+                tdPrice.innerHTML=`<p><span class="price">${price}</span><strong>€</strong>00</p>`;
 
             let tdButtonSuppr= document.createElement('td');
                 tdButtonSuppr.innerHTML=`<button id="supprItem${param5}"  class="btn btn-danger btn-supprItem"  ><i class="fas fa-trash-alt"></i></button>`;
@@ -183,9 +190,10 @@ function getProductCart(param1,param2,param3,param4,param5){
 
             tdInputNumber.addEventListener('change', (event) => {
                 const number = event.target.value;
-                let newPrice = price * number;
+                let newPrice = value.price/100 * number;
                 let blockNewPrice = tdPrice;
-                blockNewPrice.textContent= newPrice+".00€";
+                blockNewPrice.innerHTML=`<p><span class="price"> ${newPrice}</span><strong>€</strong>00</p>`;
+                console.log(newPrice);
             });
 
         return
@@ -208,11 +216,67 @@ function refresh(){
 
 // supprItem function----------------------------------------------------------------
  function supprItem(param1){
+     //faire en sorte de pouvoir annuler l'action
     //  alert('etes-vous sur?')
      console.log("item "+param1);
      localStorage.removeItem(param1);
 
 };
+
+// get price function----------------------------------------------------------------
+function getAllPrice(){
+    // console.log(document.getElementsByClassName('price'))
+
+    var observer = new MutationObserver(function(){ // est a l'écoute des changement du dom
+        
+        
+        
+        let allPrice=0;
+        let classPrice = document.getElementsByClassName('price');
+        // let allInput = document.getElementsByClassName('price');
+         let arrayOfPrice = [];
+
+
+        if(localStorage.length == classPrice.length){
+            console.log(classPrice.length);
+            console.log(classPrice);
+
+            for(let i=0; i< classPrice.length; i++){
+                let priceTour = Number(classPrice[i].innerHTML);//conversion en nombre
+                allPrice += priceTour;
+                arrayOfPrice.push(priceTour);
+                console.log(priceTour);     
+                
+                
+
+            }// fin for
+            console.table(arrayOfPrice);
+            console.log("prix total = "+allPrice);
+            document.getElementById('resumAllPrice').innerHTML =`${allPrice}` //le prix ne ce met pas a jour en direct
+            classesFound()
+            
+            }// fin if
+            
+
+
+            
+        });
+
+        
+    observer.observe(section, { attributes: false, childList: true, subtree: true , characterDataOldValue: true});
+
+
+    // When you've got what you need, you should call this function to trigger a disconnect 
+    function classesFound(){
+    observer.disconnect();
+    };
+// console.log(observer);
+
+
+
+};
+
+
 
 // resum price function----------------------------------------------------------------
 //on recupere tout les prix pour les additionner
@@ -224,7 +288,7 @@ function resumPrice(){
         <table class="table">
             <tr>
                 <td>produit(${localStorage.length})</td>
-                <td>prix</td>
+                <td id="resumAllPrice">prix</td>
             </tr>
             <tr>
                 <td>livraison</td>
@@ -278,3 +342,132 @@ function resumePriceScroll(){
 	}, false);
 }
 // console.log("ici?"); 
+// form  function----------------------------------------------------------------
+function form(){
+    // let btnForm = document.getElementById('form_submit');
+    console.log("ici?");
+    let form = document.createElement('form');
+        form.classList.add('col-md-8','bg-white','forumlaire-panier')
+        // form.method="POST";
+        // form.action="#";
+
+    let lastName= document.createElement('input');
+        lastName.classList.add("form-control");
+        lastName.id="lastName";
+        lastName.name = "lastName";
+        lastName.type="text"; 
+        lastName.placeholder="Nom";
+        lastName.required=true ;
+    // let lastName =`<input type="text" class="form-control" id="lastName" placeholder="nom" name="lastName" required> `;
+
+    let firstName =document.createElement('input');
+        firstName.classList.add("form-control");    
+        firstName.id="firstName";
+        firstName.name="firstName";
+        firstName.type="text";
+        firstName.placeholder="Prénom";
+        firstName.required = true;
+    // let firstName =`<input type="text" class="form-control" id="firstName" placeholder="prenom" name="firstName" required>`;
+
+
+    let address= document.createElement('input');
+        address.classList.add("form-control");
+        address.id="address";
+        address.name="address";
+        address.type="text";
+        address.placeholder="adresse";
+        address.required = true;
+    // let address= `<input type="text" class="form-control" id="address" placeholder="adresse" name="address"required>`;
+
+        
+    let city = document.createElement('input');
+        city.classList.add("form-control");
+        city.id="city";
+        city.name="city";
+        city.type="text";
+        city.placeholder="Ville";
+        city.required = true;
+    // let city = `<input type="text" class="form-control" id="city" placeholder="ville" name="city" required>`;
+
+
+    let email= document.createElement('input');
+        email.classList.add("form-control");
+        email.id="email";
+        email.name="email";
+        email.type="email";
+        email.placeholder="email";
+        email.required = true;
+    // let email= `<input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>`;
+
+
+    let btnForm =document.createElement('button');
+        btnForm.classList.add('btn','btn-primary','col');
+        btnForm.id="form_submit";
+        // btnForm.type="submit";
+        btnForm.innerText="envoyer"
+
+
+    let verifInput =`<small id="verifInput" class="text-danger">merci de bien renseignée ce champs</small>`;
+
+
+        form.innerHTML=`
+        <fieldset>
+            <legend><h4>informations de livraison</h4></legend>
+    
+            <div class="row">
+                <div id="groupLastName" class="form-group col">
+                    <label for="lastName">Nom</label>
+
+                </div>
+                <div id="groupFirstName" class="form-group col">
+                    <label for="firstName">Prenom</label>
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div id="groupAddress" class="form-group col">
+                    <label for="address">addresse</label>
+
+                </div>
+                <div id="groupCity" class="form-group col">
+                    <label for="city">ville</label>
+
+                </div>
+
+            </div>
+
+            <div id="groupEmail" class="form-group">
+                <label for="email">Email</label>
+
+            </div>
+        </fieldset>
+        `;
+    section.appendChild(form);
+
+  
+
+    document.getElementById('groupLastName').appendChild(lastName);
+    document.getElementById('groupFirstName').appendChild(firstName);
+    document.getElementById('groupAddress').appendChild(address);
+    document.getElementById('groupCity').appendChild(city);
+    document.getElementById('groupEmail').appendChild(email);
+
+    form.appendChild(btnForm);
+
+    btnForm.addEventListener('click',function(event){
+    event.preventDefault()
+    // console.log();
+    console.log("last name "+lastName.value +"first name "+firstName.value+ "address "+ address.value +"city "+city.value + "email "+email.value)
+    })
+
+
+
+
+}
+//get All Data function----------------------------------------------------------------
+function getAllData(){
+    console.log(localStorage.length);
+}
+

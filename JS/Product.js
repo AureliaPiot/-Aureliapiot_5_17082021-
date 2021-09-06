@@ -188,18 +188,19 @@ function getProduct(param1,param2){
                             console.log(newQuantity)
                             console.log("les valeur entrer sont similaire a  = "+ key);
                           
-                            if(newQuantity <= 100){//second conditionnel pour ne pas que la quantité depasse 100
-                                localStorage.setItem(key,product+"&"+id+"&"+chosenOptionIndex+"&"+ newQuantity)
-                                console.log("quantite ajouter = "+ newQuantity);
+                            ///conditionnel pour pour ne pas que la quantité depasse 100 dans la valeur stocker
+                                if(newQuantity <= 100){
+                                    localStorage.setItem(key,product+"&"+id+"&"+chosenOptionIndex+"&"+ newQuantity)
+                                    console.log("quantite ajouter = "+ newQuantity);
 
-                            }
-                            else{
-                                console.log("quantite maximal atteinte");
+                                }
+                                else{
+                                    console.log("quantite maximal atteinte");
 
-                            }
+                                }
 
 
-                            return//qui termine le else sans jouer les 2 boucles
+                            return//qui termine le else d'ajout de valeur sans jouer les 2 boucles, donc n'ajoute rien au localStorage
 
                         }//else sinon on execute les 2 boucle qui compare l'index
                         else{
