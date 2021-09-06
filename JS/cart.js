@@ -344,8 +344,7 @@ function resumePriceScroll(){
 // console.log("ici?"); 
 // form  function----------------------------------------------------------------
 function form(){
-    // let btnForm = document.getElementById('form_submit');
-    console.log("ici?");
+
     let form = document.createElement('form');
         form.classList.add('col-md-8','bg-white','forumlaire-panier')
         // form.method="POST";
@@ -358,7 +357,6 @@ function form(){
         lastName.type="text"; 
         lastName.placeholder="Nom";
         lastName.required=true ;
-    // let lastName =`<input type="text" class="form-control" id="lastName" placeholder="nom" name="lastName" required> `;
 
     let firstName =document.createElement('input');
         firstName.classList.add("form-control");    
@@ -367,7 +365,6 @@ function form(){
         firstName.type="text";
         firstName.placeholder="Prénom";
         firstName.required = true;
-    // let firstName =`<input type="text" class="form-control" id="firstName" placeholder="prenom" name="firstName" required>`;
 
 
     let address= document.createElement('input');
@@ -377,7 +374,6 @@ function form(){
         address.type="text";
         address.placeholder="adresse";
         address.required = true;
-    // let address= `<input type="text" class="form-control" id="address" placeholder="adresse" name="address"required>`;
 
         
     let city = document.createElement('input');
@@ -387,7 +383,6 @@ function form(){
         city.type="text";
         city.placeholder="Ville";
         city.required = true;
-    // let city = `<input type="text" class="form-control" id="city" placeholder="ville" name="city" required>`;
 
 
     let email= document.createElement('input');
@@ -397,7 +392,6 @@ function form(){
         email.type="email";
         email.placeholder="email";
         email.required = true;
-    // let email= `<input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>`;
 
 
     let btnForm =document.createElement('button');
@@ -445,8 +439,6 @@ function form(){
         </fieldset>
         `;
     section.appendChild(form);
-
-  
 
     document.getElementById('groupLastName').appendChild(lastName);
     document.getElementById('groupFirstName').appendChild(firstName);
