@@ -43,6 +43,7 @@ function creationDuTableau(){
     let panier = document.createElement('div');//creation de la div qui va recevoir le tableau
     panier.classList.add('col-md-8','bg-white','table-products');
 
+
     for(let i =0; i < localStorage.length ; i++ ){ // on parcour le contenu du local storage
         let key = localStorage.key(i); // on stock la clef  a la place  0 , puis a la place 1 , puis a la place 2 ect...
         let info = localStorage.getItem(key).split("&"); // on decoupe la valeur de la cle actuel a chaque "&" les rengeant dans un tableau
@@ -80,7 +81,10 @@ function creationDuTableau(){
         `; 
         section.appendChild(panier);
 
+
+
         getProductCart(info[0],info[1],info[2],info[3],key);
+
         
     }//fin boucle for
     
@@ -119,6 +123,7 @@ function getProductCart(param1,param2,param3,param4,param5){
         }
         // console.log(optionName);
 
+        
 
         let options = ``;
         for( let i= 0; i< value[valueOption].length; i++ ){//la c'est pour les options
@@ -137,7 +142,6 @@ function getProductCart(param1,param2,param3,param4,param5){
             }
         }//fin de boucle for option
 
-        //envoie du prix dans la boite de resumé
 
         //--------------------------------------
 
@@ -182,19 +186,34 @@ function getProductCart(param1,param2,param3,param4,param5){
             tr.appendChild(tdButtonSuppr);
 
             tbody.appendChild(tr);
-            
+
+
             tdButtonSuppr.addEventListener('click',function(){
                 supprItem(param5);
                 refresh()
             })
 
+
             tdInputNumber.addEventListener('change', (event) => {
                 const number = event.target.value;
-                let newPrice = value.price/100 * number;
-                let blockNewPrice = tdPrice;
-                blockNewPrice.innerHTML=`<p><span class="price"> ${newPrice}</span><strong>€</strong>00</p>`;
-                console.log(newPrice);
-            });
+                let isNumberValid = number.match(/^([0-9]){1,3}$/);// verification des valeurs entrées
+
+
+                if(number<0 || number >100 || isNumberValid == null ){
+                    //faire un message d'erreur
+                    alert('valeur invalide');
+                }
+                else{
+                    let newPrice = value.price/100 * number;
+                    let blockNewPrice = tdPrice;
+                    blockNewPrice.innerHTML=`<p><span class="price"> ${newPrice}</span><strong>€</strong>00</p>`;
+                    localStorage.setItem(param5, param1 +"&"+param2+"&"+param3+"&"+number)
+                    getAllPrice();
+
+                    // console.log(newPrice);
+                }
+       
+            });//fin addEvnetListener
 
         return
 
@@ -228,36 +247,34 @@ function getAllPrice(){
     // console.log(document.getElementsByClassName('price'))
 
     var observer = new MutationObserver(function(){ // est a l'écoute des changement du dom
-        
-        
-        
-        let allPrice=0;
+                
+        // let allPrice=0;
         let classPrice = document.getElementsByClassName('price');
         // let allInput = document.getElementsByClassName('price');
-         let arrayOfPrice = [];
-
-
+         let arrayOfPrice = [];//declaration d'un tableau qui va stocker tout les prix
         if(localStorage.length == classPrice.length){
             console.log(classPrice.length);
             console.log(classPrice);
 
             for(let i=0; i< classPrice.length; i++){
                 let priceTour = Number(classPrice[i].innerHTML);//conversion en nombre
-                allPrice += priceTour;
                 arrayOfPrice.push(priceTour);
-                console.log(priceTour);     
-                
-                
-
+                // console.log(priceTour);     
             }// fin for
+
+            let sumPrice = 0;
+            for(let i=0; i<arrayOfPrice.length; i++){
+                sumPrice += arrayOfPrice[i];
+            }
             console.table(arrayOfPrice);
-            console.log("prix total = "+allPrice);
-            document.getElementById('resumAllPrice').innerHTML =`${allPrice}` //le prix ne ce met pas a jour en direct
+            console.table(sumPrice);
+
+            // console.log("prix total = "+allPrice);
+            document.getElementById('resumAllPrice').innerHTML =`${sumPrice}` //le prix ne ce met pas a jour en direct
             classesFound()
             
             }// fin if
-            
-
+        
 
             
         });
@@ -266,7 +283,8 @@ function getAllPrice(){
     observer.observe(section, { attributes: false, childList: true, subtree: true , characterDataOldValue: true});
 
 
-    // When you've got what you need, you should call this function to trigger a disconnect 
+
+    //fonction pour arreter la recherche de classe, sinon ça tourne en loop au moindre changement
     function classesFound(){
     observer.disconnect();
     };
@@ -287,7 +305,7 @@ function resumPrice(){
     blocResume.innerHTML=`
         <table class="table">
             <tr>
-                <td>produit(${localStorage.length})</td>
+                <td>produit(<strong>${localStorage.length}</strong>)</td>
                 <td id="resumAllPrice">prix</td>
             </tr>
             <tr>
