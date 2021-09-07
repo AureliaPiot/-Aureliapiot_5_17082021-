@@ -1,0 +1,13 @@
+.confirmation{
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px #00000065 solid;
+}
+.confirmation h2{
+    margin-bottom: 1.4rem;
+}
+.confirmation p{
+    font-size: 1.2rem;
+}

@@ -97,7 +97,7 @@ function getProductCart(param1,param2,param3,param4,param5){
     fetch('http://localhost:3000/api/'+ param1 +'/'+ param2) 
     .then(function(res){
         if(res.ok){
-            console.log(res);
+            // console.log(res);
             // console.log(res.ok);//tant qu'il est "true" c'est bien
             return res.json();
         }       
@@ -255,8 +255,6 @@ function getAllPrice(){
          let arrayOfPrice = [];//declaration d'un tableau qui va stocker tout les prix
 
         if(localStorage.length == classPrice.length){//seulement pour que ce soit fait une fois tout les inputes recuperer 
-            // console.log(classPrice.length);
-            // console.log(classPrice);
 
             for(let i=0; i< classPrice.length; i++){
                 let priceTour = Number(classPrice[i].innerHTML);//conversion en nombre
@@ -269,23 +267,18 @@ function getAllPrice(){
             for(let i=0; i<arrayOfPrice.length; i++){//calcul de toutes les valeurs du tableau 
                 sumPrice += arrayOfPrice[i];
             }
-            console.table(arrayOfPrice);
-            console.log(sumPrice +"€");
+            // console.table(arrayOfPrice);
+            // console.log(sumPrice +"€");
 
-            // console.log("prix total = "+allPrice);
             document.getElementById('resumAllPrice').innerHTML =`<p>${sumPrice}<strong>€</strong>00</p>` //le prix ne ce met pas a jour en direct
             classesFound()
             
             }// fin if
-        
 
-            
         });
 
         
     observer.observe(section, { attributes: false, childList: true, subtree: true , characterDataOldValue: true});
-
-
 
     //fonction pour arreter la recherche de classe, sinon ça tourne en loop au moindre changement
     function classesFound(){
@@ -336,9 +329,6 @@ function resumPrice(){
         
     });
 
-    // let allPriceBlock= document.getElementsByClassName("price");
-    // console.log(allPriceBlock.length);
-
 }
 
 // scroll function----------------------------------------------------------------
@@ -360,14 +350,13 @@ function resumePriceScroll(){
         }
 	}, false);
 }
-// console.log("ici?"); 
+
 // form  function----------------------------------------------------------------
 function form(){
 
     let form = document.createElement('form');
         form.classList.add('col-md-8','bg-white','forumlaire-panier')
-        // form.method="POST";
-        // form.action="#";
+
 
     let lastName= document.createElement('input');
         lastName.classList.add("form-control");
@@ -420,9 +409,6 @@ function form(){
         btnForm.innerText="envoyer"
 
 
-    let verifInput =`<small id="verifInput" class="text-danger">merci de bien renseignée ce champs</small>`;
-
-
         form.innerHTML=`
         <fieldset id="fieldset" class="row">
             <legend><h4>informations de livraison</h4></legend>
@@ -457,6 +443,7 @@ function form(){
             </div>
         </fieldset>
         `;
+
     section.appendChild(form);
 
     document.getElementById('groupLastName').appendChild(lastName);
@@ -467,14 +454,8 @@ function form(){
     document.getElementById('fieldset').appendChild(btnForm);
 
 
-    // form.appendChild(btnForm);
-
-
-
-
     btnForm.addEventListener('click',function(event){
     event.preventDefault()
-    // console.log();
 
     let lastNameLength = lastName.value.length == 0;
     let firstNameLength = firstName.value.length == 0;
@@ -483,9 +464,7 @@ function form(){
     let emailLength = email.value.length == 0;
 
     
-    // console.log('lastName est il rempli = '+ lastNameLength)
-    // console.log("last name '"+lastNameLength +"'| first name '"+firstNameLength+ "'| address '"+ addressLength +"'| city '"+cityLength + "'| email '"+emailLength+"'")
-    formIsValid(lastName,firstName,address,city,email)
+    formIsValid(lastName,firstName,address,city,email);//validation du formulaire
 
 
     })
@@ -507,11 +486,12 @@ function formIsValid(param1,param2,param3,param4,param5){
     // Seul regex pour l'email, revois true ou false
     let emailValide = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(param5.value);// test de la structure de l'email (a voir https://regexr.com/3e48o)
 
-    console.log(value1Length+"+"+value2Length+"+"+value3Length+"+"+value4Length+"+"+value5Length)
+    // console.log(value1Length+"+"+value2Length+"+"+value3Length+"+"+value4Length+"+"+value5Length)
 
     
-
+// si UNE de ces valeur est vrais (donc = 0) alors :
 if(value1Length||value2Length||value3Length||value4Length||value5Length){
+    //
     if(value1Length){
         param1.classList.add("invalid");
         document.getElementById('groupLastName').classList.add("invalid-message");   
@@ -606,13 +586,12 @@ else if(!emailValide){
     let value5 = param5.value;
 //-----------
     let arrayId=[];
-    for(let i=0; i < localStorage.length; i++){
+    for(let i=0; i < localStorage.length; i++){//on push les id des produits
         let key = localStorage.key(i); 
         let info = localStorage.getItem(key).split("&");
         arrayId.push(info[1]);
-
     }
-    console.table(arrayId);
+    // console.table(arrayId);
 
 
 //--recuperation des donnée dans un objet java script
@@ -627,23 +606,13 @@ else if(!emailValide){
             'products':arrayId
         }
 
-    console.log(data);
+    // console.log(data);
+    // console.log("contact"+JSON.stringify(data.contact));
 
-    
+    post(data);
 
 
 }
-
-
-
-    // console.log('ici?')
-
-
-
-
-
-
-
 
 //get All Data function----------------------------------------------------------------
 function getAllData(){
@@ -680,11 +649,14 @@ function post(data){
         }       
     })
     .then(function(value){
-        console.log("value = "+typeof value);
-        // console.log("value = "+value.contact.length);
-        // console.log("value = "+value.cameras.length);
-        console.log("value = "+value.orderId);
+        console.log("value = "+ value.orderId);
+        localStorage.clear();
 
+        localStorage.setItem("orderId", value.orderId);
+        localStorage.setItem("contact", JSON.stringify(data.contact));
+        // localStorage.setItem(orderPrice, value3);
+        setTimeout(()=>{document.location.href="commandConfirm.html";}, 2000);
+        
     })//2dn then
     
     .catch(function(err){
@@ -694,4 +666,18 @@ function post(data){
 
 
     }
+}
+
+//new localStorage function----------------------------------------------------------------
+function newLocalStorage(){
+    // key1 = orderId
+    // key2 = contact
+    // key3 = orderPrice
+    localStorage.clear();
+
+    localStorage.setItem(orderId, value.orderId);
+    localStorage.setItem("contact", JSON.stringify(data.contact));
+    localStorage.setItem(orderPrice, value3);
+
+    document.location.href="commandConfirm.html";
 }
