@@ -18,6 +18,7 @@ else{
     getAllPrice();
     // resumePriceScroll();
     form();
+    getAllData();
 // ---------------------
 
 
@@ -96,7 +97,7 @@ function getProductCart(param1,param2,param3,param4,param5){
     fetch('http://localhost:3000/api/'+ param1 +'/'+ param2) 
     .then(function(res){
         if(res.ok){
-            // console.log(res);
+            console.log(res);
             // console.log(res.ok);//tant qu'il est "true" c'est bien
             return res.json();
         }       
@@ -248,13 +249,14 @@ function getAllPrice(){
 
     var observer = new MutationObserver(function(){ // est a l'écoute des changement du dom
                 
-        // let allPrice=0;
+
         let classPrice = document.getElementsByClassName('price');
-        // let allInput = document.getElementsByClassName('price');
+
          let arrayOfPrice = [];//declaration d'un tableau qui va stocker tout les prix
-        if(localStorage.length == classPrice.length){
-            console.log(classPrice.length);
-            console.log(classPrice);
+
+        if(localStorage.length == classPrice.length){//seulement pour que ce soit fait une fois tout les inputes recuperer 
+            // console.log(classPrice.length);
+            // console.log(classPrice);
 
             for(let i=0; i< classPrice.length; i++){
                 let priceTour = Number(classPrice[i].innerHTML);//conversion en nombre
@@ -263,14 +265,15 @@ function getAllPrice(){
             }// fin for
 
             let sumPrice = 0;
-            for(let i=0; i<arrayOfPrice.length; i++){
+
+            for(let i=0; i<arrayOfPrice.length; i++){//calcul de toutes les valeurs du tableau 
                 sumPrice += arrayOfPrice[i];
             }
             console.table(arrayOfPrice);
-            console.table(sumPrice);
+            console.log(sumPrice +"€");
 
             // console.log("prix total = "+allPrice);
-            document.getElementById('resumAllPrice').innerHTML =`${sumPrice}` //le prix ne ce met pas a jour en direct
+            document.getElementById('resumAllPrice').innerHTML =`<p>${sumPrice}<strong>€</strong>00</p>` //le prix ne ce met pas a jour en direct
             classesFound()
             
             }// fin if
@@ -428,11 +431,11 @@ function form(){
     
             <div class="row">
                 <div id="groupLastName" class="form-group col">
-                    <label for="lastName">Nom</label>
+                    <label for="lastName">Nom <span>*</span></label>
 
                 </div>
                 <div id="groupFirstName" class="form-group col">
-                    <label for="firstName">Prenom</label>
+                    <label for="firstName">Prenom <span>*</span></label>
 
                 </div>
             </div>
@@ -440,18 +443,18 @@ function form(){
             <div class="row">
 
                 <div id="groupAddress" class="form-group col">
-                    <label for="address">addresse</label>
+                    <label for="address">adresse <span>*</span></label>
 
                 </div>
                 <div id="groupCity" class="form-group col">
-                    <label for="city">ville</label>
+                    <label for="city">ville <span>*</span></label>
 
                 </div>
 
             </div>
 
             <div id="groupEmail" class="form-group">
-                <label for="email">Email</label>
+                <label for="email">Email <span>*</span></label>
 
             </div>
         </fieldset>
@@ -466,18 +469,135 @@ function form(){
 
     form.appendChild(btnForm);
 
+
+
+
     btnForm.addEventListener('click',function(event){
     event.preventDefault()
     // console.log();
-    console.log("last name "+lastName.value +"first name "+firstName.value+ "address "+ address.value +"city "+city.value + "email "+email.value)
+
+    let lastNameLength = lastName.value.length == 0;
+    let firstNameLength = firstName.value.length == 0;
+    let addressLength = address.value.length == 0;
+    let cityLength = city.value.length == 0;
+    let emailLength = email.value.length == 0;
+
+    
+    // console.log('lastName est il rempli = '+ lastNameLength)
+    // console.log("last name '"+lastNameLength +"'| first name '"+firstNameLength+ "'| address '"+ addressLength +"'| city '"+cityLength + "'| email '"+emailLength+"'")
+    formIsValid(lastName,firstName,address,city,email)
     })
 
 
 
 
 }
+
+//FormIsValid function----------------------------------------------------------------
+function formIsValid(param1,param2,param3,param4,param5){
+    let verifInputLength =`<small id="verifInput" class="text-danger">merci de remplire ce champs</small>`;
+
+    let value1Length = param1.value.length == 0;
+    let value2Length = param2.value.length == 0;
+    let value3Length = param3.value.length == 0;
+    let value4Length = param4.value.length == 0;
+    let value5Length = param5.value.length == 0;
+    console.log(value1Length+"+"+value2Length+"+"+value3Length+"+"+value4Length+"+"+value5Length)
+
+if(value1Length||value2Length||value3Length||value4Length||value5Length){
+
+alert('valeur invalide');
+
+}else{//si le formulaire est valide on recupe les info et on les post
+
+    let value1 = param1.value;
+    let value2 = param2.value;
+    let value3 = param3.value;
+    let value4 = param4.value;
+    let value5 = param5.value;
+//-----------
+    let arrayId=[];
+    for(let i=0; i < localStorage.length; i++){
+        let key = localStorage.key(i); 
+        let info = localStorage.getItem(key).split("&");
+        arrayId.push(info[1]);
+
+    }
+    console.table(arrayId);
+
+    let data ={
+            contact :{
+                firstName: value2,
+                lastName: value1,
+                address: value3,
+                city: value4,
+                email: value5,
+            },
+            'products':arrayId
+        }
+    // let dataStringify = JSON.stringify(data);
+    // console.log(dataStringify);
+
+    fetch('http://localhost:3000/api/cameras/order', {
+        method : "Post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    }) 
+    .then(function(res){
+        if(res.ok){
+            console.log(res);
+            // console.log(res.ok);//tant qu'il est "true" c'est bien
+            return res.json();
+        }       
+    })
+    .then(function(value){
+        console.log("value = "+typeof value);
+        // console.log("value = "+value.contact.length);
+        // console.log("value = "+value.cameras.length);
+        console.log("value = "+value.orderId);
+
+    })//2dn then
+    
+    .catch(function(err){
+        console.log('erreur de fetch | aucun produit trouvé');
+
+    })
+
+
+}
+
+
+}
+
+
+
+    // console.log('ici?')
+
+
+
+
+
+
+
+
 //get All Data function----------------------------------------------------------------
 function getAllData(){
-    console.log(localStorage.length);
+    // console.log(localStorage.length);
+    // console.table(localStorage);
+
+/**
+ *
+ * Expects request to contain:
+ * contact: {
+ *   firstName: string,
+ *   lastName: string,
+ *   address: string,
+ *   city: string,
+ *   email: string
+ * }
+ * products: [string] <-- array of product _id
+ *
+ */
+
 }
 

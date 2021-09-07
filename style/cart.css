@@ -70,3 +70,6 @@ tr{
 .forumlaire-panier .form-select{
     width: auto;
 }
+fieldset span{
+    color: rgb(255, 0, 0);
+}
