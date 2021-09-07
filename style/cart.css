@@ -49,15 +49,11 @@ tr{
 
 .resume-price tr td:nth-child(2){
     text-align: end;
-
 }
 
 .btn-achat{
     width: 100%;
 }
-
-
-
 
 .forumlaire-panier{
     padding: 3rem;
@@ -72,4 +68,20 @@ tr{
 }
 fieldset span{
     color: rgb(255, 0, 0);
+}
+
+.valid{
+    border: 1px rgb(32, 190, 0) solid;
+    position: relative;
+}
+.invalid{
+    border: 1px rgb(190, 0, 0) solid;;
+}
+.invalid-message::after{
+    content :"champ vide";
+    color: rgb(190, 0, 0);
+}
+.invalid-email::after{
+    content :"email invalide";
+    color: rgb(190, 0, 0);
 }

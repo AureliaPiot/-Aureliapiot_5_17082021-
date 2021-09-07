@@ -18,7 +18,7 @@ else{
     getAllPrice();
     // resumePriceScroll();
     form();
-    getAllData();
+    // getAllData();
 // ---------------------
 
 
@@ -293,8 +293,6 @@ function getAllPrice(){
     };
 // console.log(observer);
 
-
-
 };
 
 
@@ -416,7 +414,7 @@ function form(){
 
 
     let btnForm =document.createElement('button');
-        btnForm.classList.add('btn','btn-primary','col');
+        btnForm.classList.add('btn','btn-primary','col-5','mx-auto');
         btnForm.id="form_submit";
         // btnForm.type="submit";
         btnForm.innerText="envoyer"
@@ -426,7 +424,7 @@ function form(){
 
 
         form.innerHTML=`
-        <fieldset>
+        <fieldset id="fieldset" class="row">
             <legend><h4>informations de livraison</h4></legend>
     
             <div class="row">
@@ -466,8 +464,10 @@ function form(){
     document.getElementById('groupAddress').appendChild(address);
     document.getElementById('groupCity').appendChild(city);
     document.getElementById('groupEmail').appendChild(email);
+    document.getElementById('fieldset').appendChild(btnForm);
 
-    form.appendChild(btnForm);
+
+    // form.appendChild(btnForm);
 
 
 
@@ -486,6 +486,8 @@ function form(){
     // console.log('lastName est il rempli = '+ lastNameLength)
     // console.log("last name '"+lastNameLength +"'| first name '"+firstNameLength+ "'| address '"+ addressLength +"'| city '"+cityLength + "'| email '"+emailLength+"'")
     formIsValid(lastName,firstName,address,city,email)
+
+
     })
 
 
@@ -495,21 +497,108 @@ function form(){
 
 //FormIsValid function----------------------------------------------------------------
 function formIsValid(param1,param2,param3,param4,param5){
-    let verifInputLength =`<small id="verifInput" class="text-danger">merci de remplire ce champs</small>`;
 
     let value1Length = param1.value.length == 0;
     let value2Length = param2.value.length == 0;
     let value3Length = param3.value.length == 0;
     let value4Length = param4.value.length == 0;
     let value5Length = param5.value.length == 0;
+
+    // Seul regex pour l'email, revois true ou false
+    let emailValide = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(param5.value);// test de la structure de l'email (a voir https://regexr.com/3e48o)
+
     console.log(value1Length+"+"+value2Length+"+"+value3Length+"+"+value4Length+"+"+value5Length)
 
+    
+
 if(value1Length||value2Length||value3Length||value4Length||value5Length){
+    if(value1Length){
+        param1.classList.add("invalid");
+        document.getElementById('groupLastName').classList.add("invalid-message");   
+    }else if(!value1Length){
+        param1.classList.add("valid");
+            if(param1.classList.contains("invalid")){
+                param1.classList.remove("invalid");
+                document.getElementById('groupLastName').classList.remove("invalid-message");
+            }
+    }
+    if(value2Length){
+        param2.classList.add("invalid");
+        document.getElementById('groupFirstName').classList.add("invalid-message");        
+    }else if(!value2Length){
+        param2.classList.add("valid");
+            if(param2.classList.contains("invalid")){
+                param2.classList.remove("invalid");
+                document.getElementById('groupFirstName').classList.remove("invalid-message");
+            }
+    } 
+    if(value3Length){
+        param3.classList.add("invalid");
+        document.getElementById('groupAddress').classList.add("invalid-message");
+    }else if(!value3Length){
+        param3.classList.add("valid");
+            if(param3.classList.contains("invalid")){
+                param3.classList.remove("invalid");
+                document.getElementById('groupAddress').classList.remove("invalid-message");
+            }
+    }
+    if(value4Length){
+        param4.classList.add("invalid");
+        document.getElementById('groupCity').classList.add("invalid-message");
+    }else if(!value4Length){
+        param4.classList.add("valid");
+        if(param4.classList.contains("invalid")){
+            param4.classList.remove("invalid");
+            document.getElementById('groupCity').classList.remove("invalid-message");
+        }
+    }
+    if(value5Length){
+        param5.classList.add("invalid");
+        document.getElementById('groupEmail').classList.add("invalid-message");
+    }else if(!value5Length){
+        param5.classList.add("valid");
+        if(param5.classList.contains("invalid")){
+            param5.classList.remove("invalid");
+            document.getElementById('groupEmail').classList.remove("invalid-message");
+        }
+    }
+}//fin if si toute les longueurs = 0
+else if(!emailValide){
+    param5.classList.add("invalid-email");
+    document.getElementById('groupEmail').classList.add("invalid-message");
 
-alert('valeur invalide');
 
-}else{//si le formulaire est valide on recupe les info et on les post
 
+
+}else{//si le formulaire est valide on ajoute l'effet visuel pour montrer que les champs sont accepetés et on recupe les info puis on les post
+    if(param1.classList.contains("invalid")){
+        param1.classList.remove("invalid");
+        document.getElementById('groupLastName').classList.remove("invalid-message");
+    }
+    if(param2.classList.contains("invalid")){
+        param2.classList.remove("invalid");
+        document.getElementById('groupFirstName').classList.remove("invalid-message");
+    }
+    if(param3.classList.contains("invalid")){
+        param3.classList.remove("invalid");
+        document.getElementById('groupAddress').classList.remove("invalid-message");
+    }
+    if(param4.classList.contains("invalid")){
+        param4.classList.remove("invalid");
+        document.getElementById('groupCity').classList.remove("invalid-message");
+    }
+    if(param5.classList.contains("invalid")){
+        param5.classList.remove("invalid");
+        document.getElementById('groupEmail').classList.remove("invalid-message");
+    }
+    param1.classList.add("valid");
+    param2.classList.add("valid");
+    param3.classList.add("valid");
+    param4.classList.add("valid");
+    param5.classList.add("valid");
+
+
+// -----------------------------------------------
     let value1 = param1.value;
     let value2 = param2.value;
     let value3 = param3.value;
@@ -525,6 +614,8 @@ alert('valeur invalide');
     }
     console.table(arrayId);
 
+
+//--recuperation des donnée dans un objet java script
     let data ={
             contact :{
                 firstName: value2,
@@ -535,36 +626,10 @@ alert('valeur invalide');
             },
             'products':arrayId
         }
-    // let dataStringify = JSON.stringify(data);
-    // console.log(dataStringify);
 
-    fetch('http://localhost:3000/api/cameras/order', {
-        method : "Post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-    }) 
-    .then(function(res){
-        if(res.ok){
-            console.log(res);
-            // console.log(res.ok);//tant qu'il est "true" c'est bien
-            return res.json();
-        }       
-    })
-    .then(function(value){
-        console.log("value = "+typeof value);
-        // console.log("value = "+value.contact.length);
-        // console.log("value = "+value.cameras.length);
-        console.log("value = "+value.orderId);
+    console.log(data);
 
-    })//2dn then
     
-    .catch(function(err){
-        console.log('erreur de fetch | aucun produit trouvé');
-
-    })
-
-
-}
 
 
 }
@@ -600,4 +665,33 @@ function getAllData(){
  */
 
 }
+//function post----------------------
+function post(data){
+    fetch('http://localhost:3000/api/cameras/order', {
+        method : "Post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    }) 
+    .then(function(res){
+        if(res.ok){
+            console.log(res);
+            // console.log(res.ok);//tant qu'il est "true" c'est bien
+            return res.json();
+        }       
+    })
+    .then(function(value){
+        console.log("value = "+typeof value);
+        // console.log("value = "+value.contact.length);
+        // console.log("value = "+value.cameras.length);
+        console.log("value = "+value.orderId);
 
+    })//2dn then
+    
+    .catch(function(err){
+        console.log('erreur de fetch | aucun produit trouvé');
+
+    })
+
+
+    }
+}
