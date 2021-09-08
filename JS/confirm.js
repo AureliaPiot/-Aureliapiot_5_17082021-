@@ -3,11 +3,11 @@ let section = document.getElementById("section");
 let card = document.createElement("div");
 card.classList.add('confirmation','col-6');
 
-if(localStorage.key(1)== "orderId"){
-
+if(localStorage.key(0)== "contact" || localStorage.key(0) == "orderId" ){
+        console.table(localStorage);
+        
         let orderId = localStorage.getItem("orderId");
         
-        console.table(localStorage);
         let contact = JSON.parse(localStorage.getItem("contact"));
         console.log(contact);
         
@@ -15,21 +15,17 @@ if(localStorage.key(1)== "orderId"){
         let lastName = contact.lastName;
         let address = contact.address;
         let city = contact.city;
+        let price = contact.price;
         
         
-        
-        let card = document.createElement("div");
-        card.classList.add('confirmation','col-6');
         card.innerHTML=`
         <h2>votre commande est bien enregistrée !</h2>
-        <p>Bonjour ${firstName} ${lastName},<br> votre commande <strong>${orderId}</strong>, de {prix}, vous sera bientot envoyer à l'adresse ${address} à ${city}.</p>
+        <p>Bonjour ${firstName} ${lastName},<br> votre commande <strong>${orderId}</strong> de <strong>${price}€</strong>, vous sera bientot envoyer à l'adresse: ${address} à ${city}.</p>
         
         `;
-        
-        // section.appendChild(card);
-        
+                
         //le localStorage est clear apres 5sec
-        setTimeout(()=>{localStorage.clear();}, 5000);
+        // setTimeout(()=>{localStorage.clear();}, 5000);
 }
 else{
         card.innerHTML=`
@@ -40,4 +36,3 @@ else{
 }
         section.appendChild(card);
         
-// faire une verification que l'orderId existe bien dans le localStorage pour etre sûr

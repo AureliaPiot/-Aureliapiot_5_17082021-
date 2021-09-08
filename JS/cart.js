@@ -15,9 +15,9 @@ panierVide()
 else{
     resumPrice()
     creationDuTableau();
-    getAllPrice();
-    // resumePriceScroll();
     form();
+    // getAllPrice();
+    // resumePriceScroll();
     // getAllData();
 // ---------------------
 
@@ -203,20 +203,20 @@ function getProductCart(param1,param2,param3,param4,param5,key){
             tdInputNumber.addEventListener('change', (event) => {
                 const number = event.target.value;
                 let isNumberValid = number.match(/^([0-9]){1,3}$/);// regex verification des valeurs entrées (on evite les virgules)
-
-
+                
+                
                 if(number<0 || number >100 || isNumberValid == null ){
                     //faire un message d'erreur
                     alert('valeur invalide');
                 }
                 else{
+                    getAllPrice();
                     let newPrice = value.price/100 * number;
                     let blockNewPrice = tdPrice;
                     blockNewPrice.innerHTML=`<p><span class="price"> ${newPrice}</span><strong>€</strong>00</p>`;
-                    // produit":"cameras","id":"5be9bc241c9d440000a730e7","optionId":0,"quantites":7,"unitPrice":2099}
-                    let getInfo = localStorage.getItem(key);
-                    let info = JSON.parse(getInfo);
-                    console.table(info);
+                    // let getInfo = localStorage.getItem(key);
+                    // let info = JSON.parse(getInfo);
+                    // console.table(info);
 
                     let newInfo ={
                         produit:param1,
@@ -227,11 +227,6 @@ function getProductCart(param1,param2,param3,param4,param5,key){
                     }
                     localStorage.setItem(key,JSON.stringify(newInfo));
                     
-
-                    // localStorage.setItem(param5, param1 +"&"+param2+"&"+param3+"&"+number)
-                    getAllPrice();
-
-                    // console.log(newPrice);
                 }
        
             });//fin addEvnetListener
@@ -241,7 +236,7 @@ function getProductCart(param1,param2,param3,param4,param5,key){
     })//2dn then
     
     .catch(function(err){
-        console.log('erreur de fetch | aucun produit trouvé');
+        console.log('erreur de fetch | aucun produit trouvé | merci de demarer le server');
 
     })
     return
@@ -265,51 +260,30 @@ function refresh(){
 
 // get price function----------------------------------------------------------------
 function getAllPrice(){
-    // console.log(document.getElementsByClassName('price'))
 
-    var observer = new MutationObserver(function(){ // est a l'écoute des changement du dom
-                
+        let arrayOfPrice = [];//declaration d'un tableau qui va stocker tout les prix
 
-        let classPrice = document.getElementsByClassName('price');
+    for(let i = 0 ; i < localStorage.length ; i++){
+        let key = localStorage.key(i);
+        let info = JSON.parse(localStorage.getItem(key));
+        let quantites = info.quantites;
+        let unitPrice = info.unitPrice;
+        let priceKey= quantites * unitPrice;
+        arrayOfPrice.push(priceKey);
+    }
+        // console.table(arrayOfPrice);
+    let sumPrice = 0;
+    for(let i=0; i<arrayOfPrice.length; i++){//calcul de toutes les valeurs du tableau 
+        sumPrice += arrayOfPrice[i];
+    }
 
-         let arrayOfPrice = [];//declaration d'un tableau qui va stocker tout les prix
-
-        if(localStorage.length == classPrice.length){//seulement pour que ce soit fait une fois tout les inputes recuperer 
-
-            for(let i=0; i< classPrice.length; i++){
-                let priceTour = Number(classPrice[i].innerHTML);//conversion en nombre
-                arrayOfPrice.push(priceTour);
-                // console.log(priceTour);     
-            }// fin for
-
-            let sumPrice = 0;
-
-            for(let i=0; i<arrayOfPrice.length; i++){//calcul de toutes les valeurs du tableau 
-                sumPrice += arrayOfPrice[i];
-            }
-            // console.table(arrayOfPrice);
-            // console.log(sumPrice +"€");
-
-            document.getElementById('resumAllPrice').innerHTML =`<p>${sumPrice}<strong>€</strong>00</p>` //le prix ne ce met pas a jour en direct
-            classesFound()
-            
-            }// fin if
-
-        });
-
-        
-    observer.observe(section, { attributes: false, childList: true, subtree: true , characterDataOldValue: true});
-
-    //fonction pour arreter la recherche de classe, sinon ça tourne en loop au moindre changement
-    function classesFound(){
-    observer.disconnect();
-    };
-// console.log(observer);
-
+        document.getElementById('resumAllPrice').innerHTML =`${sumPrice}<strong>€</strong>00`;
+        //ne se met pas a jour au 1er clic
+        // console.log("sumPrice "+ sumPrice +"€");  
+        return sumPrice;
 };
-
-
-
+    
+       
 // resum price function----------------------------------------------------------------
 //on recupere tout les prix pour les additionner
 function resumPrice(){
@@ -320,7 +294,7 @@ function resumPrice(){
         <table class="table">
             <tr>
                 <td>produit(<strong>${localStorage.length}</strong>)</td>
-                <td id="resumAllPrice">prix</td>
+                <td id="resumAllPrice"></td>
             </tr>
             <tr>
                 <td>livraison</td>
@@ -348,6 +322,8 @@ function resumPrice(){
         refresh()
         
     });
+    console.log("getAllPrice"+getAllPrice());
+
 
 }
 
@@ -563,6 +539,7 @@ if(value1Length||value2Length||value3Length||value4Length||value5Length){
         }
     }
 }//fin if si toute les longueurs = 0
+
 else if(!emailValide){
     param5.classList.add("invalid-email");
     document.getElementById('groupEmail').classList.add("invalid-message");
@@ -624,38 +601,20 @@ else if(!emailValide){
                 address: value3,
                 city: value4,
                 email: value5,
+                price:getAllPrice()
             },
             'products':arrayId
         }
 
     // console.log(data);
     // console.log("contact"+JSON.stringify(data.contact));
+    // console.log(value3);
 
     post(data);
 
 
 }
 
-//get All Data function----------------------------------------------------------------
-function getAllData(){
-    // console.log(localStorage.length);
-    // console.table(localStorage);
-
-/**
- *
- * Expects request to contain:
- * contact: {
- *   firstName: string,
- *   lastName: string,
- *   address: string,
- *   city: string,
- *   email: string
- * }
- * products: [string] <-- array of product _id
- *
- */
-
-}
 //function post----------------------
 function post(data){
     fetch('http://localhost:3000/api/cameras/order', {
@@ -666,18 +625,21 @@ function post(data){
     .then(function(res){
         if(res.ok){
             console.log(res);
-            // console.log(res.ok);//tant qu'il est "true" c'est bien
             return res.json();
         }       
     })
     .then(function(value){
-        console.log("value = "+ value.orderId);
+
+        
+        // console.log("value = "+ value.orderId);
+        // console.log("data contact "+ JSON.stringify(data.contact));
+
         localStorage.clear();
 
         localStorage.setItem("orderId", value.orderId);
         localStorage.setItem("contact", JSON.stringify(data.contact));
 
-        setTimeout(()=>{document.location.href="commandConfirm.html";}, 1000);//erdirection apres 1sec
+        setTimeout(()=>{document.location.href="commandConfirm.html";}, 500);//redirection apres 0.5sec
         
     })//2dn then
     
@@ -691,15 +653,12 @@ function post(data){
 }
 
 //new localStorage function----------------------------------------------------------------
-function newLocalStorage(){
-    // key1 = orderId
-    // key2 = contact
-    // key3 = orderPrice
-    localStorage.clear();
+// function newLocalStorage(){
+//     localStorage.clear();
 
-    localStorage.setItem(orderId, value.orderId);
-    localStorage.setItem("contact", JSON.stringify(data.contact));
-    localStorage.setItem(orderPrice, value3);
+//     localStorage.setItem(orderId, value.orderId);
+//     localStorage.setItem("contact", JSON.stringify(data.contact));
+//     localStorage.setItem(orderPrice, value3);
 
-    document.location.href="commandConfirm.html";
-}
+//     document.location.href="commandConfirm.html";
+// }
