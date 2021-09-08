@@ -46,7 +46,7 @@ function getProduct(param1,param2){
         let options = ``;
         // console.log(value[valueOption]);
 
-      for( let i= 0; i< value[valueOption].length; i++ ){
+      for( let i= 0; i< value[valueOption].length; i++ ){//ici on check la premiere option
           if(i==0){
             options +=`
             <input type="radio" id="option${i}" name="option" value="${value[valueOption][i]}" checked >
@@ -142,26 +142,33 @@ function getProduct(param1,param2){
                     console.log('on commence a : '+ length);
                     console.log('produit de type = ' + product);
 
-                    localStorage.setItem(lenght,product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value);
+                    let item ={
+                        'produit':product,
+                        'id':id,
+                        'optionId':chosenOptionIndex,
+                        'quantites':quantites.value,
+                        'unitPrice':price
+                    }
+                    
+                    // console.log('item '+ length +'=' +JSON.stringify(item));
+                    localStorage.setItem(lenght,JSON.stringify(item));
+
+
+                    // localStorage.setItem(lenght,product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value);
                 }else{
 
                     //BOUCLE COMPARATIF DES VALEURS du localStorage-____________________________________________________________________________
                     
                     for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
+
                         let key = localStorage.key(i);//la cle a l'index 0 n'est pas forcement egal a 0, ils sont rangé bizarement dans le localStorage
                         console.log("cle = "+key)
                         console.log("i= "+i)
 
                         let item = localStorage.getItem(key);//on recupe la valeur de l'item a comparer avec "key" et non "I" car les cle ne sont pas forcement dans l'ordre (ex 1-2-3 ect) alors que I , oui.
-                        
-                        let itemSplit = item.split("&")//on casse la valeur qui contient les info a comparer
-
-                        /*  itemSplit[0] = produit
-                            itemSplit[1] = id
-                            itemSplit[2] = option
-                            itemSplit[3] = quantité
-                        */
-                       
+                        // let itemSplit = item.split("&")//on casse la valeur qui contient les info a comparer
+                        let itemSplit = JSON.parse(item);
+                        console.table(itemSplit);                    
                         //    let valueToCompare =product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value; //on recupe la valeur a ajouter
                             
                             // let produitTrue=itemSplit[0] == product;
@@ -169,13 +176,14 @@ function getProduct(param1,param2){
                             // let optionTrue=itemSplit[2] == chosenOptionIndex;
 
                         //--------TEST des valeurs dans le console.log
-                            // console.log(itemSplit[0]+ " = " +product +" donc "+ produitTrue);
-                            // console.log(itemSplit[1]+ " = " +id+" donc "+idTrue );
-                            // console.log(itemSplit[2]+ " = " +chosenOptionIndex+" donc "+optionTrue );
+                            console.log(itemSplit.produit+ " = " +product +" donc "+ "produitTrue");
+                            console.log(itemSplit.id+ " = " +id+" donc "+"idTrue" );
+                            console.log(itemSplit.optionId+ " = " +chosenOptionIndex+" donc "+"optionTrue" );
 
                         //--------------------------------------------------------------------------
+                        
 
-                        if(itemSplit[0] == product && itemSplit[1] == id && itemSplit[2] == chosenOptionIndex){
+                        if(itemSplit.produit == product && itemSplit.id == id && itemSplit.optionId == chosenOptionIndex){
                             //si les valeurs que l'on ajoute est les meme que des valeurs deja enregistre alors | on recupere la quantité que l'on ajoute a l'item trouver
                         /*
                             si :
@@ -186,14 +194,22 @@ function getProduct(param1,param2){
 
                         */
                             // console.log("les valeur sont bien similaire ");
-                            let newQuantity = Number(itemSplit[3]) + Number(quantites.value); //parseInt() = pour les nombres entier, Number() = si la varaiable a un nombre a virgule
-                            console.log("on calcul  = "+ itemSplit[3] +" + "+ quantites.value +" = "+ newQuantity);
+                            let newQuantity = Number(itemSplit.quantites) + Number(quantites.value); //parseInt() = pour les nombres entier, Number() = si la varaiable a un nombre a virgule
+                            console.log("on calcul  = "+ itemSplit.quantites+" + "+ quantites.value +" = "+ newQuantity);
                             console.log(newQuantity)
                             console.log("les valeur entrer sont similaire a  = "+ key);
                           
                             ///conditionnel pour pour ne pas que la quantité depasse 100 dans la valeur stocker
                                 if(newQuantity <= 100){
-                                    localStorage.setItem(key,product+"&"+id+"&"+chosenOptionIndex+"&"+ newQuantity)
+
+                                    let itemNewQuantity ={
+                                        'produit':product,
+                                        'id':id,
+                                        'optionId':chosenOptionIndex,
+                                        'quantites':newQuantity,
+                                        'unitPrice':price
+                                    }
+                                    localStorage.setItem(key,JSON.stringify(itemNewQuantity))
                                     console.log("quantite ajouter = "+ newQuantity);
 
                                 }
@@ -207,7 +223,7 @@ function getProduct(param1,param2){
 
                         }//else sinon on execute les 2 boucle qui compare l'index
                         else{
-                            console.log("nan ");
+                            console.log("nan");
                             
                             
                         }//fin du else
@@ -227,7 +243,14 @@ function getProduct(param1,param2){
                                 // console.log('produit de type = ' + product);
                                 console.log(" produit n° "+ j+" ajouté");
                                 let indexManquant = j;
-                                localStorage.setItem(indexManquant,product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value);
+                                let newItem={
+                                    'produit':product,
+                                    'id':id,
+                                    'optionId':chosenOptionIndex,
+                                    'quantites':quantites.value,
+                                    'unitPrice':price
+                                }
+                                localStorage.setItem(indexManquant,JSON.stringify(newItem));
                                 return indexManquant;
                             }
 
