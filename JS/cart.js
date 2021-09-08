@@ -47,7 +47,11 @@ function creationDuTableau(){
 
     for(let i =0; i < localStorage.length ; i++ ){ // on parcour le contenu du local storage
         let key = localStorage.key(i); // on stock la clef  a la place  0 , puis a la place 1 , puis a la place 2 ect...
-        let info = localStorage.getItem(key).split("&"); // on decoupe la valeur de la cle actuel a chaque "&" les rengeant dans un tableau
+        let info = localStorage.getItem(key); 
+        
+        
+        let infoSplit = JSON.parse(info);
+        // console.table(infoSplit);
 
 
         // console.log("info "+info);//retourne un tableau.
@@ -83,8 +87,9 @@ function creationDuTableau(){
         section.appendChild(panier);
 
 
+        getProductCart(infoSplit.produit,infoSplit.id,infoSplit.optionId,infoSplit.quantites,infoSplit.unitPrice,key);
 
-        getProductCart(info[0],info[1],info[2],info[3],key);
+        // getProductCart(info[0],info[1],info[2],info[3],key);
 
         
     }//fin boucle for
@@ -93,7 +98,7 @@ function creationDuTableau(){
 
 //GetProductCart function----------------------------------------------------------------
 
-function getProductCart(param1,param2,param3,param4,param5){
+function getProductCart(param1,param2,param3,param4,param5,key){
     fetch('http://localhost:3000/api/'+ param1 +'/'+ param2) 
     .then(function(res){
         if(res.ok){
@@ -152,7 +157,7 @@ function getProductCart(param1,param2,param3,param4,param5){
             let tr= document.createElement('tr');
 
             let tdCle= document.createElement('td');
-                tdCle.innerHTML=`${param5}`;
+                tdCle.innerHTML=`${key}`;
 
 
             let tdImg= document.createElement('td');
@@ -174,7 +179,7 @@ function getProductCart(param1,param2,param3,param4,param5){
                 tdPrice.innerHTML=`<p><span class="price">${price}</span><strong>€</strong>00</p>`;
 
             let tdButtonSuppr= document.createElement('td');
-                tdButtonSuppr.innerHTML=`<button id="supprItem${param5}"  class="btn btn-danger btn-supprItem"  ><i class="fas fa-trash-alt"></i></button>`;
+                tdButtonSuppr.innerHTML=`<button id="supprItem${key}"  class="btn btn-danger btn-supprItem"  ><i class="fas fa-trash-alt"></i></button>`;
 
             tr.appendChild(tdCle);
             
@@ -190,7 +195,7 @@ function getProductCart(param1,param2,param3,param4,param5){
 
 
             tdButtonSuppr.addEventListener('click',function(){
-                supprItem(param5);
+                supprItem(key);
                 refresh()
             })
 
@@ -208,7 +213,22 @@ function getProductCart(param1,param2,param3,param4,param5){
                     let newPrice = value.price/100 * number;
                     let blockNewPrice = tdPrice;
                     blockNewPrice.innerHTML=`<p><span class="price"> ${newPrice}</span><strong>€</strong>00</p>`;
-                    localStorage.setItem(param5, param1 +"&"+param2+"&"+param3+"&"+number)
+                    // produit":"cameras","id":"5be9bc241c9d440000a730e7","optionId":0,"quantites":7,"unitPrice":2099}
+                    let getInfo = localStorage.getItem(key);
+                    let info = JSON.parse(getInfo);
+                    console.table(info);
+
+                    let newInfo ={
+                        produit:param1,
+                        id:param2,
+                        optionId:param3,
+                        quantites:number,
+                        unitPrice:param5
+                    }
+                    localStorage.setItem(key,JSON.stringify(newInfo));
+                    
+
+                    // localStorage.setItem(param5, param1 +"&"+param2+"&"+param3+"&"+number)
                     getAllPrice();
 
                     // console.log(newPrice);
@@ -588,8 +608,10 @@ else if(!emailValide){
     let arrayId=[];
     for(let i=0; i < localStorage.length; i++){//on push les id des produits
         let key = localStorage.key(i); 
-        let info = localStorage.getItem(key).split("&");
-        arrayId.push(info[1]);
+        let info = localStorage.getItem(key);
+        let inoSplit = JSON.parse(info);
+        let infoId = inoSplit.id;
+        arrayId.push(infoId);
     }
     // console.table(arrayId);
 
