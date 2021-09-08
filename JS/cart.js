@@ -6,7 +6,7 @@ const section = document.getElementById('section-product');
     si il est vide, on affiche un message que le panier est vide avec un lien qui mene a l'accueil 
     si il ya quelque chose on affiche le tableau   
 */
-if( localStorage.length == 0 ){
+if( localStorage.length == 0 || localStorage.key(0)== "contact" || localStorage.key(0) == "orderId" ){
 //affiche un message
 panierVide()
 
