@@ -44,17 +44,23 @@ function getProduct(param1,param2){
 
       for( let i= 0; i< value[valueOption].length; i++ ){//ici on check la premiere option
           if(i==0){
-            options +=`
-            <input type="radio" id="option${i}" name="option" value="${value[valueOption][i]}" checked >
-            <label for="option${i}">${value[valueOption][i]}</label>
+             options +=`
+            <option  id="option${i}" name="option" value="${value[valueOption][i]}" selected >${value[valueOption][i]}</option>
             `;
+            // options +=`
+            // <input type="radio" id="option${i}" name="option" value="${value[valueOption][i]}" checked >
+            // <label for="option${i}">${value[valueOption][i]}</label>
+            // `;
             // console.log(i);
 
           }else{
-            options +=`
-            <input type="radio" id="option${i}" name="option" value="${value[valueOption][i]}">
-            <label for="option${i}">${value[valueOption][i]}</label>
+              options +=` 
+            <option  id="option${i}" name="option" value="${value[valueOption][i]}">${value[valueOption][i]}</option>
             `;
+            // options +=`
+            // <input type="radio" id="option${i}" name="option" value="${value[valueOption][i]}">
+            // <label for="option${i}">${value[valueOption][i]}</label>
+            // `;
         // console.log(i);
           }
       }
@@ -67,9 +73,11 @@ function getProduct(param1,param2){
                 <div class="separator"></div>
                 <p class="pdct-description">${value.description}</p>
                 
-                <div class="pdct-choice-group align-self-end">
-                    <p>Selectionnez ${optionName}:</p>
-                    ${options}
+                <div class="pdct-choice-group align-self-end d-flex">
+                    <label class="input-group-text" for="inputGroupOption">Selectionnez ${optionName} :</label>
+                    <select class="form-select" id="inputGroupOption">
+                        ${options}
+                    </select>
                 </div>
 
             </div>
@@ -118,7 +126,9 @@ function getProduct(param1,param2){
 
 
             if( verifQuantite(quantites.value) == false ){//si la valeur de quantite est fausse et qu'il y a une virgule  alors on affiche juste un message 
-            alert('valeur invalide');
+            // alert('valeur invalide');
+            let message ="valeur incorrect";
+            visualerror(message)
             // faire un affichage
             return
             }
@@ -127,7 +137,7 @@ function getProduct(param1,param2){
             
                 let chosenOptionIndex;
                 for( let i= 0; i< value[valueOption].length; i++ ){
-                    if(document.getElementById(`option${i}`).checked){
+                    if(document.getElementById(`option${i}`).selected){
                         chosenOptionIndex = i ; //ici on recupere l'option qui a ete checked apres les avoirs toutes verifier
                         console.log('option trouver! = ' + document.getElementById(`option${i}`).value);
                     }
@@ -147,11 +157,12 @@ function getProduct(param1,param2){
                         'unitPrice':price
                     }
                     
-                    // console.log('item '+ length +'=' +JSON.stringify(item));
+
                     localStorage.setItem(lenght,JSON.stringify(item));
+                    let message ="Ajout de "+quantites.value+" "+value.name+" ,Option: " +value[valueOption][chosenOptionIndex]+ "  dans le panier";
+                    visualAdd(message);
 
 
-                    // localStorage.setItem(lenght,product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value);
                 }else{
 
                     //BOUCLE COMPARATIF DES VALEURS du localStorage-____________________________________________________________________________
@@ -197,10 +208,15 @@ function getProduct(param1,param2){
 
                                     localStorage.setItem(key,JSON.stringify(itemNewQuantity))
                                     console.log("quantite ajouter = "+ newQuantity);
+                                    let message="ajout de "+quantites.value +" "+ value.name+" ,Option: [" +value[valueOption][chosenOptionIndex]+"] dans le panier ("+newQuantity+")";
+                                    visualAdd(message)
 
                                 }
                                 else{
-                                    console.log("quantite maximal atteinte");
+                                    // console.log("quantite maximal atteinte");
+                                    let message ="quantite maximal atteinte pour ce produit";
+                                    visualerror(message);
+
 
                                 }
 
@@ -237,6 +253,10 @@ function getProduct(param1,param2){
                                     'unitPrice':price
                                 }
                                 localStorage.setItem(indexManquant,JSON.stringify(newItem));
+
+                                let message ="Ajout de "+quantites.value+" "+value.name+ " ,Option: " +value[valueOption][chosenOptionIndex]+" dans le panier";
+                                visualAdd(message);
+                                
                                 return indexManquant;
                             }
 
@@ -261,6 +281,7 @@ function getProduct(param1,param2){
     })
 };// fin fonction getProduct
 
+//-----------------------------------------------------
 function verifQuantite(target){
     let isNumberValid = target.match(/^([0-9]){1,3}$/);// regex pour evité les virgules)
     if(target <= 0 || target > 100 || isNumberValid == null ){
@@ -271,3 +292,26 @@ function verifQuantite(target){
         return true;
     }
 };
+
+//-----------------------------------------------------
+function visualAdd(param){
+
+    const block= document.createElement("div");
+    block.classList.add('visualAdd');    
+    block.innerHTML=param;
+    
+    let main = document.getElementsByTagName('main');
+    main[0].insertBefore(block, section);
+    setTimeout(function(){main[0].removeChild(block)},1000);
+}
+
+function visualerror(param){
+
+    const block= document.createElement("div");
+    block.classList.add('visualError');
+    block.innerHTML=param;
+
+    let main = document.getElementsByTagName('main')
+    main[0].insertBefore(block, section);
+    setTimeout(function(){main[0].removeChild(block)},1000);
+}
