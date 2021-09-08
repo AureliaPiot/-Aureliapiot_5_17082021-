@@ -7,10 +7,6 @@ let section = document.getElementById('section-product');
 
 getProduct(product,id);
 
-
-
-
-
 // --------------------------------------------
 
 function getProduct(param1,param2){
@@ -137,7 +133,8 @@ function getProduct(param1,param2){
                     }
                 }
 
-                if(localStorage.length === 0){//si il n'y a pas d'element dans le localStorage, on l'initialise
+                if(localStorage.length === 0 || localStorage.key(1) == "orderId"){//si il n'y a pas d'element dans le localStorage,ou si il contient les donnée de commande, on le reinitialise
+                    localStorage.clear();
                     let lenght=localStorage.length;
                     console.log('on commence a : '+ length);
                     console.log('produit de type = ' + product);
@@ -169,17 +166,6 @@ function getProduct(param1,param2){
                         // let itemSplit = item.split("&")//on casse la valeur qui contient les info a comparer
                         let itemSplit = JSON.parse(item);
                         console.table(itemSplit);                    
-                        //    let valueToCompare =product+"&"+id+"&"+chosenOptionIndex+"&"+quantites.value; //on recupe la valeur a ajouter
-                            
-                            // let produitTrue=itemSplit[0] == product;
-                            // let idTrue=itemSplit[1] == id;
-                            // let optionTrue=itemSplit[2] == chosenOptionIndex;
-
-                        //--------TEST des valeurs dans le console.log
-                            console.log(itemSplit.produit+ " = " +product +" donc "+ "produitTrue");
-                            console.log(itemSplit.id+ " = " +id+" donc "+"idTrue" );
-                            console.log(itemSplit.optionId+ " = " +chosenOptionIndex+" donc "+"optionTrue" );
-
                         //--------------------------------------------------------------------------
                         
 
@@ -197,7 +183,6 @@ function getProduct(param1,param2){
                             let newQuantity = Number(itemSplit.quantites) + Number(quantites.value); //parseInt() = pour les nombres entier, Number() = si la varaiable a un nombre a virgule
                             console.log("on calcul  = "+ itemSplit.quantites+" + "+ quantites.value +" = "+ newQuantity);
                             console.log(newQuantity)
-                            console.log("les valeur entrer sont similaire a  = "+ key);
                           
                             ///conditionnel pour pour ne pas que la quantité depasse 100 dans la valeur stocker
                                 if(newQuantity <= 100){
@@ -209,6 +194,7 @@ function getProduct(param1,param2){
                                         'quantites':newQuantity,
                                         'unitPrice':price
                                     }
+
                                     localStorage.setItem(key,JSON.stringify(itemNewQuantity))
                                     console.log("quantite ajouter = "+ newQuantity);
 

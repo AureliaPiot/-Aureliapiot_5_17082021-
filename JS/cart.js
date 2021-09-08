@@ -676,8 +676,8 @@ function post(data){
 
         localStorage.setItem("orderId", value.orderId);
         localStorage.setItem("contact", JSON.stringify(data.contact));
-        // localStorage.setItem(orderPrice, value3);
-        setTimeout(()=>{document.location.href="commandConfirm.html";}, 2000);
+
+        setTimeout(()=>{document.location.href="commandConfirm.html";}, 1000);//erdirection apres 1sec
         
     })//2dn then
     
