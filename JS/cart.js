@@ -1,28 +1,59 @@
 // console.log('ici?');
 const section = document.getElementById('section-product');
-// console.log(section);
-
-/*  recuperer le localstorage,
-    si il est vide, on affiche un message que le panier est vide avec un lien qui mene a l'accueil 
-    si il ya quelque chose on affiche le tableau   
-*/
-if( localStorage.length == 0 || localStorage.key(0)== "contact" || localStorage.key(0) == "orderId" ){
-//affiche un message
-panierVide()
-
-}//fin du if
-
-else{
-    resumPrice()
-    creationDuTableau();
-    form();
-// ---------------------
 
 
-}//fin else
+//verification si le serveur est allumer----------------------------------------------------------------
 
+const verifFetch =
+    
+    fetch('http://localhost:3000/api/cameras') 
+    .then(function(res){
+        // console.table(res);
+        if (!res.ok) {
+            console.log(`Erreur HTTP ! statut : ${res.status}`);
+          }
+        if(res.ok){
+            
+            if( localStorage.length == 0 || localStorage.key(0)== "contact" || localStorage.key(0) == "orderId" ){
+                //affiche un message
+                panierVide()
+                
+            }//fin du if
+            
+            else{
+                resumPrice()
+                creationDuTableau();
+                form(); 
+                
+            }//fin else
+        }       
+    })
+    .catch(function(err){
+        errServ()
+    })
+    
+    
+    ;
+
+
+
+
+
+
+    // console.table(verifFetch);   
+    
 //declaration des fonctions____________________________________________________________________________________________________________
 
+//Message error serveur----------------------------------------------------------------
+
+function errServ(){
+    let content = document.createElement('div');
+    content.classList.add('contentError')
+    content.innerHTML='serveur indisponible';
+    section.appendChild(content);
+            
+
+}
 
 //Message panier vide----------------------------------------------------------------
 function panierVide(){
@@ -78,9 +109,6 @@ function creationDuTableau(){
 
 
         getProductCart(infoSplit.produit,infoSplit.id,infoSplit.optionId,infoSplit.quantites,infoSplit.unitPrice,key);
-
-        // getProductCart(info[0],info[1],info[2],info[3],key);
-
         
     }//fin boucle for
     
@@ -91,9 +119,13 @@ function creationDuTableau(){
 function getProductCart(param1,param2,param3,param4,param5,key){
     fetch('http://localhost:3000/api/'+ param1 +'/'+ param2) 
     .then(function(res){
-        if(res.ok){
-            // console.log(res);
-            // console.log(res.ok);//tant qu'il est "true" c'est bien
+            // console.table(res);
+
+        if (!res.ok) {
+            let tbody = document.getElementById('productSpace');
+            tbody.innerHTML += `<td colspan=6 class="text-danger text-center"><strong> Product ${res.statusText} | Statut : ${res.status}</strong></td> `;
+          }
+        if(res.ok){//tant qu'il est "true" c'est bien
             return res.json();
         }       
     })
@@ -117,24 +149,20 @@ function getProductCart(param1,param2,param3,param4,param5,key){
             default: console.log('aucun produit trouvé');                      
                 
         }
-        // console.log(optionName);
-
         
 
         let options = ``;
         for( let i= 0; i< value[valueOption].length; i++ ){//la c'est pour les options
             
-        // console.log("valeur de l'option " + value[valueOption]);
- 
+   
             if(i== param3){ //on compare la valeur, si elle correspond a celle en position = a param3 (donc a 0 = 1er tour  (0=i), ou a 1 = 2nd tour(i=1))
                 // (value[valueOption][i]== value[valueOption][param3]){  possible avec cette ecriture
 
-                options +=`<option value="${value[valueOption][i]}" selected>${value[valueOption][i]}</option>`; // le "selected" en plus
-            // console.log("valeur de l'option check " + value[valueOption][i]);
+                options +=`<option value="${value[valueOption][i]}" selected>${value[valueOption][i]}</option>`; //on ajoute le "selected" en plus
 
             }else{
                 options +=`<option value="${value[valueOption][i]}">${value[valueOption][i]}</option>`;
-            // console.log("valeur de l'option PAS check " + value[valueOption][i] +" comparer a " + value[valueOption][param3]);
+
             }
         }//fin de boucle for option
 
@@ -223,7 +251,13 @@ function getProductCart(param1,param2,param3,param4,param5,key){
     })//2dn then
     
     .catch(function(err){
-        console.log('erreur de fetch | aucun produit trouvé | merci de demarer le server');
+
+        console.table(err);
+        console.log(err);
+
+        // errServ();
+            
+        // console.log('erreur de fetch | aucun produit trouvé | merci de demarer le server');
 
     })
     return
@@ -310,7 +344,7 @@ function resumPrice(){
 
         
     });
-    console.log("getAllPrice"+getAllPrice());
+    // console.log("getAllPrice"+getAllPrice());
 
 
 }
@@ -474,170 +508,170 @@ function formIsValid(param1,param2,param3,param4,param5){
     
 // si UNE de ces valeur est vrais (donc = 0) alors :
 if(value1Length||value2Length||value3Length||value4Length||value5Length){
-    //
-    if(value1Length){
-        param1.classList.add("invalid");
-        document.getElementById('groupLastName').classList.add("invalid-message");   
-    }else if(!value1Length){
-        param1.classList.add("valid");
-            if(param1.classList.contains("invalid")){
-                param1.classList.remove("invalid");
-                document.getElementById('groupLastName').classList.remove("invalid-message");
+        //
+        if(value1Length){
+            param1.classList.add("invalid");
+            document.getElementById('groupLastName').classList.add("invalid-message");   
+        }else if(!value1Length){
+            param1.classList.add("valid");
+                if(param1.classList.contains("invalid")){
+                    param1.classList.remove("invalid");
+                    document.getElementById('groupLastName').classList.remove("invalid-message");
+                }
+        }
+        if(value2Length){
+            param2.classList.add("invalid");
+            document.getElementById('groupFirstName').classList.add("invalid-message");        
+        }else if(!value2Length){
+            param2.classList.add("valid");
+                if(param2.classList.contains("invalid")){
+                    param2.classList.remove("invalid");
+                    document.getElementById('groupFirstName').classList.remove("invalid-message");
+                }
+        } 
+        if(value3Length){
+            param3.classList.add("invalid");
+            document.getElementById('groupAddress').classList.add("invalid-message");
+        }else if(!value3Length){
+            param3.classList.add("valid");
+                if(param3.classList.contains("invalid")){
+                    param3.classList.remove("invalid");
+                    document.getElementById('groupAddress').classList.remove("invalid-message");
+                }
+        }
+        if(value4Length){
+            param4.classList.add("invalid");
+            document.getElementById('groupCity').classList.add("invalid-message");
+        }else if(!value4Length){
+            param4.classList.add("valid");
+            if(param4.classList.contains("invalid")){
+                param4.classList.remove("invalid");
+                document.getElementById('groupCity').classList.remove("invalid-message");
             }
-    }
-    if(value2Length){
-        param2.classList.add("invalid");
-        document.getElementById('groupFirstName').classList.add("invalid-message");        
-    }else if(!value2Length){
-        param2.classList.add("valid");
-            if(param2.classList.contains("invalid")){
-                param2.classList.remove("invalid");
-                document.getElementById('groupFirstName').classList.remove("invalid-message");
+        }
+        if(value5Length){
+            param5.classList.add("invalid");
+            document.getElementById('groupEmail').classList.add("invalid-message");
+        }else if(!value5Length){
+            param5.classList.add("valid");
+            if(param5.classList.contains("invalid")){
+                param5.classList.remove("invalid");
+                document.getElementById('groupEmail').classList.remove("invalid-message");
             }
-    } 
-    if(value3Length){
-        param3.classList.add("invalid");
-        document.getElementById('groupAddress').classList.add("invalid-message");
-    }else if(!value3Length){
-        param3.classList.add("valid");
-            if(param3.classList.contains("invalid")){
-                param3.classList.remove("invalid");
-                document.getElementById('groupAddress').classList.remove("invalid-message");
-            }
-    }
-    if(value4Length){
-        param4.classList.add("invalid");
-        document.getElementById('groupCity').classList.add("invalid-message");
-    }else if(!value4Length){
-        param4.classList.add("valid");
+        }
+    }//fin if si toute les longueurs = 0
+
+    else if(!emailValide){
+        param5.classList.add("invalid-email");
+        document.getElementById('groupEmail').classList.add("invalid-message");
+
+
+
+
+    }else{//si le formulaire est valide on ajoute l'effet visuel pour montrer que les champs sont accepetés et on recupe les info puis on les post
+        if(param1.classList.contains("invalid")){
+            param1.classList.remove("invalid");
+            document.getElementById('groupLastName').classList.remove("invalid-message");
+        }
+        if(param2.classList.contains("invalid")){
+            param2.classList.remove("invalid");
+            document.getElementById('groupFirstName').classList.remove("invalid-message");
+        }
+        if(param3.classList.contains("invalid")){
+            param3.classList.remove("invalid");
+            document.getElementById('groupAddress').classList.remove("invalid-message");
+        }
         if(param4.classList.contains("invalid")){
             param4.classList.remove("invalid");
             document.getElementById('groupCity').classList.remove("invalid-message");
         }
-    }
-    if(value5Length){
-        param5.classList.add("invalid");
-        document.getElementById('groupEmail').classList.add("invalid-message");
-    }else if(!value5Length){
-        param5.classList.add("valid");
         if(param5.classList.contains("invalid")){
             param5.classList.remove("invalid");
             document.getElementById('groupEmail').classList.remove("invalid-message");
         }
-    }
-}//fin if si toute les longueurs = 0
-
-else if(!emailValide){
-    param5.classList.add("invalid-email");
-    document.getElementById('groupEmail').classList.add("invalid-message");
-
+        param1.classList.add("valid");
+        param2.classList.add("valid");
+        param3.classList.add("valid");
+        param4.classList.add("valid");
+        param5.classList.add("valid");
 
 
-
-}else{//si le formulaire est valide on ajoute l'effet visuel pour montrer que les champs sont accepetés et on recupe les info puis on les post
-    if(param1.classList.contains("invalid")){
-        param1.classList.remove("invalid");
-        document.getElementById('groupLastName').classList.remove("invalid-message");
-    }
-    if(param2.classList.contains("invalid")){
-        param2.classList.remove("invalid");
-        document.getElementById('groupFirstName').classList.remove("invalid-message");
-    }
-    if(param3.classList.contains("invalid")){
-        param3.classList.remove("invalid");
-        document.getElementById('groupAddress').classList.remove("invalid-message");
-    }
-    if(param4.classList.contains("invalid")){
-        param4.classList.remove("invalid");
-        document.getElementById('groupCity').classList.remove("invalid-message");
-    }
-    if(param5.classList.contains("invalid")){
-        param5.classList.remove("invalid");
-        document.getElementById('groupEmail').classList.remove("invalid-message");
-    }
-    param1.classList.add("valid");
-    param2.classList.add("valid");
-    param3.classList.add("valid");
-    param4.classList.add("valid");
-    param5.classList.add("valid");
-
-
-// -----------------------------------------------
-    let value1 = param1.value;
-    let value2 = param2.value;
-    let value3 = param3.value;
-    let value4 = param4.value;
-    let value5 = param5.value;
-//-----------
-    let arrayId=[];
-    for(let i=0; i < localStorage.length; i++){//on push les id des produits
-        let key = localStorage.key(i); 
-        let info = localStorage.getItem(key);
-        let inoSplit = JSON.parse(info);
-        let infoId = inoSplit.id;
-        arrayId.push(infoId);
-    }
-    // console.table(arrayId);
-
-
-//--recuperation des donnée dans un objet java script
-    let data ={
-            contact :{
-                firstName: value2,
-                lastName: value1,
-                address: value3,
-                city: value4,
-                email: value5,
-                price:getAllPrice()
-            },
-            'products':arrayId
+    // -----------------------------------------------
+        let value1 = param1.value;
+        let value2 = param2.value;
+        let value3 = param3.value;
+        let value4 = param4.value;
+        let value5 = param5.value;
+    //-----------
+        let arrayId=[];
+        for(let i=0; i < localStorage.length; i++){//on push les id des produits
+            let key = localStorage.key(i); 
+            let info = localStorage.getItem(key);
+            let inoSplit = JSON.parse(info);
+            let infoId = inoSplit.id;
+            arrayId.push(infoId);
         }
-
-    // console.log(data);
-    // console.log("contact"+JSON.stringify(data.contact));
-    // console.log(value3);
-
-    post(data);
+        // console.table(arrayId);
 
 
-}
+    //--recuperation des donnée dans un objet java script
+        let data ={
+                contact :{
+                    firstName: value2,
+                    lastName: value1,
+                    address: value3,
+                    city: value4,
+                    email: value5,
+                    price:getAllPrice()
+                },
+                'products':arrayId
+            }
 
-//function post----------------------
-function post(data){
-    fetch('http://localhost:3000/api/cameras/order', {
-        method : "Post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-    }) 
-    .then(function(res){
-        if(res.ok){
-            console.log(res);
-            return res.json();
-        }       
-    })
-    .then(function(value){
+        // console.log(data);
+        // console.log("contact"+JSON.stringify(data.contact));
+        // console.log(value3);
 
-        
-        // console.log("value = "+ value.orderId);
-        // console.log("data contact "+ JSON.stringify(data.contact));
-
-        localStorage.clear();
-
-        localStorage.setItem("orderId", value.orderId);
-        localStorage.setItem("contact", JSON.stringify(data.contact));
-
-        setTimeout(()=>{document.location.href="commandConfirm.html";}, 500);//redirection apres 0.5sec
-        
-    })//2dn then
-    
-    .catch(function(err){
-        console.log('erreur de fetch | aucun produit trouvé');
-
-    })
+        post(data);
 
 
     }
 }
+
+    //function post----------------------
+    function post(data){
+        fetch('http://localhost:3000/api/cameras/order', {
+            method : "Post",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        }) 
+        .then(function(res){
+            if(res.ok){
+                console.log(res);
+                return res.json();
+            }       
+        })
+        .then(function(value){
+
+            
+            // console.log("value = "+ value.orderId);
+            // console.log("data contact "+ JSON.stringify(data.contact));
+
+            localStorage.clear();
+
+            localStorage.setItem("orderId", value.orderId);
+            localStorage.setItem("contact", JSON.stringify(data.contact));
+
+            setTimeout(()=>{document.location.href="commandConfirm.html";}, 500);//redirection apres 0.5sec
+            
+        })//2dn then
+        
+        .catch(function(err){
+            console.log('erreur de fetch | aucun produit trouvé');
+
+        })
+
+
+    }
 
 //new localStorage function----------------------------------------------------------------
 // function newLocalStorage(){

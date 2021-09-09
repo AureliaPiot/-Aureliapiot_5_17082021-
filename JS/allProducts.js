@@ -97,8 +97,14 @@ function getProducts(productToCall){
 
         })
         .catch(function(err){
-            console.log("erreur quelque part");
-            // faire un affichage pour l'erreur
+            let content = document.createElement('div');
+            content.classList.add('contentError')
+            content.innerHTML='serveur indisponible';
+            section.appendChild(content);
+            
+            // console.log(err.message);
+
+            
         });
 }
 

@@ -1,3 +1,13 @@
+.contentError{
+    background: white;
+    width: fit-content;
+    padding: 2rem;
+    font-size: 3rem;
+    border-radius: 15px;
+    border: 1px solid #e3e3e3;
+    margin: auto;
+}
+
 p{
     margin: 0;
 }

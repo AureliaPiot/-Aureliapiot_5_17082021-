@@ -276,7 +276,13 @@ function getProduct(param1,param2){
     })//2dn then
     
     .catch(function(err){
-        console.log('erreur de fetch');
+        let content = document.createElement('div');
+            content.classList.add('contentError')
+            content.innerHTML='serveur indisponible';
+            section.appendChild(content);
+            
+            // console.log(err.message);
+
 
     })
 };// fin fonction getProduct
