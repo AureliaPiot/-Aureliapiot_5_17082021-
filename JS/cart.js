@@ -81,13 +81,13 @@ function creationDuTableau(){
         let infoSplit = JSON.parse(info);
         // console.table(infoSplit);
 
+        // <th scope="col">cle</th>
         
         panier.innerHTML=
         `                   
-            <table class="table">
-                <thead>
+            <table class="table" >
+                <thead class="text-center">
                 <tr>
-                    <th scope="col">cle</th>
                     <th scope="col">photo</th>
                     <th scope="col">nom</th>
                     <th scope="col">description</th>
@@ -99,7 +99,7 @@ function creationDuTableau(){
 
                 </tr>
                 </thead>
-                <tbody id="productSpace">
+                <tbody id="productSpace" class="text-center" >
                     
                 </tbody>
             </table>
@@ -188,7 +188,8 @@ function getProductCart(param1,param2,param3,param4,param5,key){
                 tdDescription.innerHTML=`${value.description}`;    
 
             let tdOptions= document.createElement('td');
-                tdOptions.innerHTML=`<div>  <p>${optionName} :</p>  <select id="option-select">${options}</select>  </div>`;
+                tdOptions.classList.add('align-baseline');
+                tdOptions.innerHTML=`<div>  <strong>${optionName} :</strong>  <select id="option-select">${options}</select>  </div>`;
                 
             let tdInputNumber= document.createElement('td');
                 tdInputNumber.innerHTML=`<input type="number" name="quantite" id="quantite-Item${param2}" min="1" max="100" value="${param4}">`;
@@ -197,9 +198,9 @@ function getProductCart(param1,param2,param3,param4,param5,key){
                 tdPrice.innerHTML=`<p><span class="price">${price}</span><strong>€</strong>00</p>`;
 
             let tdButtonSuppr= document.createElement('td');
-                tdButtonSuppr.innerHTML=`<button id="supprItem${key}"  class="btn btn-danger btn-supprItem"  ><i class="fas fa-trash-alt"></i></button>`;
+                tdButtonSuppr.innerHTML=`<button id="supprItem${key}"  class="btn btn-danger btn-supprItem"  ><i class="fas fa-trash-alt fa-lg"></i></button>`;
 
-            tr.appendChild(tdCle);
+            // tr.appendChild(tdCle);
             
             tr.appendChild(tdImg);
             tr.appendChild(tdName);
@@ -344,7 +345,7 @@ function resumPrice(){
 
         
     });
-    // console.log("getAllPrice"+getAllPrice());
+    getAllPrice();
 
 
 }
@@ -661,12 +662,12 @@ if(value1Length||value2Length||value3Length||value4Length||value5Length){
             localStorage.setItem("orderId", value.orderId);
             localStorage.setItem("contact", JSON.stringify(data.contact));
 
-            setTimeout(()=>{document.location.href="commandConfirm.html";}, 500);//redirection apres 0.5sec
+            // setTimeout(()=>{document.location.href="commandConfirm.html";}, 500);//redirection apres 0.5sec
             
         })//2dn then
         
         .catch(function(err){
-            console.log('erreur de fetch | aucun produit trouvé');
+            console.log('erreur lors de la requete');
 
         })
 

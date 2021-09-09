@@ -7,7 +7,17 @@
     border: 1px solid #e3e3e3;
     margin: auto;
 }
+section{
+    padding: 5rem;
+    height: 100%;
+    /* display: flex;
+    flex-wrap:wrap;
+    justify-content: space-evenly; */
 
+}
+main{
+    min-height: 580px;
+}
 p{
     margin: 0;
 }
@@ -27,13 +37,7 @@ i{
     font-size: 2rem;
 }
 
-section{
-    padding: 5rem;
-    /* display: flex;
-    flex-wrap:wrap;
-    justify-content: space-evenly; */
 
-}
 nav .fa-shopping-cart{
     position: relative;
 
@@ -74,7 +78,7 @@ footer{
     margin: 1rem;
 }
 .card-img-top{
-    height: 20rem;
+    height: 16rem;
     object-fit: cover;
 }
 .card-title {

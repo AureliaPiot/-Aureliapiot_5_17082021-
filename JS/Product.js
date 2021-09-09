@@ -81,11 +81,11 @@ function getProduct(param1,param2){
                 </div>
 
             </div>
-            <div class="pdct-command text-center d-flex flex-column justify-content-evenly">
+            <div class="pdct-command text-center d-flex justify-content-evenly">
                 <h4 class="pdct-price">${price}<strong>€</strong><span>00</span></h4 >
 
                 <div class="command-number d-flex flex-column">
-                    <label for="quantites">Number:</label>
+                    <label for="quantites">quantité:</label>
                         <input id="quantites" class="input-number" type="number"  name="quantites" value="1" min="1" max="100" >
                 </div>
 
