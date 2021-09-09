@@ -95,3 +95,10 @@ fieldset span{
     content :"email invalide";
     color: rgb(190, 0, 0);
 }
+/* @media screen and (max-width:1350px) {
+.product-section{
+    padding: 5px;
+}
+
+    
+} */
