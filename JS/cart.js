@@ -16,9 +16,6 @@ else{
     resumPrice()
     creationDuTableau();
     form();
-    // getAllPrice();
-    // resumePriceScroll();
-    // getAllData();
 // ---------------------
 
 
@@ -53,13 +50,6 @@ function creationDuTableau(){
         let infoSplit = JSON.parse(info);
         // console.table(infoSplit);
 
-
-        // console.log("info "+info);//retourne un tableau.
-        // console.log("type =  "+info[0] +"|| id "+info[1]+"|| option n° "+ info[2] +"|| quantite "+info[3] );//retourne l'info du tableau a l'index indiquer.
-
-        // console.log("|| cle = "+ key +"||objet = "+localStorage.getItem(key));
-
-        // on recupe les info des produit dans le 
         
         panier.innerHTML=
         `                   
@@ -196,7 +186,6 @@ function getProductCart(param1,param2,param3,param4,param5,key){
 
             tdButtonSuppr.addEventListener('click',function(){
                 supprItem(key);
-                refresh()
             })
 
 
@@ -214,9 +203,7 @@ function getProductCart(param1,param2,param3,param4,param5,key){
                     let newPrice = value.price/100 * number;
                     let blockNewPrice = tdPrice;
                     blockNewPrice.innerHTML=`<p><span class="price"> ${newPrice}</span><strong>€</strong>00</p>`;
-                    // let getInfo = localStorage.getItem(key);
-                    // let info = JSON.parse(getInfo);
-                    // console.table(info);
+
 
                     let newInfo ={
                         produit:param1,
@@ -251,10 +238,12 @@ function refresh(){
 
 // supprItem function----------------------------------------------------------------
  function supprItem(param1){
+
      //faire en sorte de pouvoir annuler l'action
-    //  alert('etes-vous sur?')
-     console.log("item "+param1);
-     localStorage.removeItem(param1);
+     if(confirm('etes-vous sur?')){
+         localStorage.removeItem(param1);
+         refresh()
+     }
 
 };
 
@@ -301,11 +290,6 @@ function resumPrice(){
                 <td>prix frais de port</td>
             </tr>
             <tr>
-            <td colspan="2">
-                <button class="btn btn-primary btn-achat">achat</button>
-            </td> 
-            </tr>
-            <tr>
                 <td colspan="2">
                     <button id="resetButton" class="btn btn-danger btn-achat" >supprimer le panier</button>
                 </td>
@@ -316,10 +300,14 @@ function resumPrice(){
     section.appendChild(blocResume);
     resumePriceScroll()
     
+
     let reset = document.getElementById("resetButton");
     reset.addEventListener('click',() =>{
-        localStorage.clear()
-        refresh()
+        if(confirm('La totalitée de votre panier sera effacée, etes-vous sur?')){
+            localStorage.clear();
+            refresh()
+        }
+
         
     });
     console.log("getAllPrice"+getAllPrice());
@@ -401,8 +389,7 @@ function form(){
     let btnForm =document.createElement('button');
         btnForm.classList.add('btn','btn-primary','col-5','mx-auto');
         btnForm.id="form_submit";
-        // btnForm.type="submit";
-        btnForm.innerText="envoyer"
+        btnForm.innerText="Acheter"
 
 
         form.innerHTML=`

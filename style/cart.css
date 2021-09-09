@@ -54,6 +54,16 @@ tr{
 .btn-achat{
     width: 100%;
 }
+.btnAccept{
+    width: 1rem;
+    height: 1rem;
+    background-color: rgba(0, 131, 39, 0.075);
+}
+.btnRefuse{
+    width: 1rem;
+    height: 1rem;
+    background-color: rgba(0, 131, 39, 0.075);
+}
 
 .forumlaire-panier{
     padding: 3rem;

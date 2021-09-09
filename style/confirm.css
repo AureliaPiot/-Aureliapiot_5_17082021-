@@ -11,3 +11,16 @@
 .confirmation p{
     font-size: 1.2rem;
 }
+@media screen and (max-width: 1380px){
+    .confirmation{
+        width: 80%;
+    }
+}
+@media screen and (max-width: 700px){
+    section{
+        padding: 10px;
+    }
+    .confirmation{
+        width: 100%;
+    }
+}

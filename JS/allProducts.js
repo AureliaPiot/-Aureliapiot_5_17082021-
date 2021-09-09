@@ -77,11 +77,12 @@ function getProducts(productToCall){
                     <a href="produit.html?p=${product}&id=${value._id}">
                         <img class="card-img-top" src="${url}" alt="${value.name}">
                         <div class="card-body">
-                            <h5 class="card-title">${value.name}</h5>
+                            <h4 class="card-title">${value.name}</h4>
                             <p class="card-text">${value.description}</p>
                             <div class="text-center">
                                 <p class="card-price col"> ${price} <strong>€</strong></p>
                             </div>   
+                            <hr>
                             <p> ${optionName} disponible : </p> 
                             <div class="productOption d-flex justify-content-evenly">
                             ${productOption} 
