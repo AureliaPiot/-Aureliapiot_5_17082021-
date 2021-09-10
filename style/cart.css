@@ -13,6 +13,8 @@
 	top: 0px !important;
 }
 
+
+
 .table-products{
     padding: 1rem;
     margin-bottom: 2.5rem;
@@ -41,9 +43,10 @@ tr{
 
 
 .resume-price{
+    /* width: 25%; */
     padding: 1rem;
     position: absolute;
-    top: 150px;
+    /* top: 150px; */
     right: 130px;
 }
 
@@ -102,3 +105,25 @@ fieldset span{
 
     
 } */
+@media screen and (min-width: 1449px){
+    .resume-price {
+        top: 150px;
+    }
+}
+@media screen and (max-width: 1550px){
+    .cart-section{
+     padding: 20px;   
+    }
+    .resume-price {
+        top: 90px ;
+        right: 55px !important;
+    }
+}
+@media screen and (max-width: 1400px){
+    .resume-price{
+        /* width: 80%; */
+        padding: 1rem;
+        position: initial;
+
+    }
+}

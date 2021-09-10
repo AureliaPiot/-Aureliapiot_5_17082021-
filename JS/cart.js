@@ -2,6 +2,7 @@
 const section = document.getElementById('section-product');
 
 
+
 //verification si le serveur est allumer----------------------------------------------------------------
 
 const verifFetch =
@@ -21,10 +22,44 @@ const verifFetch =
             }//fin du if
             
             else{
-                resumPrice()
                 creationDuTableau();
+                resumPrice()
                 form(); 
-                
+                // resumePriceScroll();
+	
+                // if(document.documentElement.clientWidth > 1400){
+                //     resumePriceScroll();
+                //     console.log(' width de depar yes')
+                // }// fin if dans le else
+
+                // window.addEventListener("resize", function(event) {    
+                //     let width =   window.innerWidth;
+                //     if(width > 1400){
+                //         resumePriceScroll();
+                //         console.log('yes ' + width)
+                //         return
+
+                //     }else{
+                //         console.log('no '+ width)
+                //         return
+                //     }
+                // });
+           
+                // window.addEventListener("resize", function(event) {    
+                //     let width =   window.innerWidth;
+                //     if(document.documentElement.clientWidth> 1400){
+                //         resumePriceScroll();
+                //         console.log('yes ' + document.documentElement.clientWidth)
+                //         return
+
+                //     }else{
+                //         console.log('no '+ document.documentElement.clientWidth)
+                //         return
+                //     }
+                // });
+            
+            
+
             }//fin else
         }       
     })
@@ -70,7 +105,7 @@ section.appendChild(message);
 function creationDuTableau(){
 
     let panier = document.createElement('div');//creation de la div qui va recevoir le tableau
-    panier.classList.add('col-md-8','bg-white','table-products');
+    panier.classList.add('col-xxl-8','bg-white','table-products');
 
 
     for(let i =0; i < localStorage.length ; i++ ){ // on parcour le contenu du local storage
@@ -309,10 +344,10 @@ function getAllPrice(){
     
        
 // resum price function----------------------------------------------------------------
-//on recupere tout les prix pour les additionner
+
 function resumPrice(){
     let blocResume = document.createElement('div');
-    blocResume.classList.add('col-md-3','resume-price','bg-white');
+    blocResume.classList.add('col-xxl-3','resume-price','bg-white');
     blocResume.id = 'resume-price';
     blocResume.innerHTML=`
         <table class="table">
@@ -333,48 +368,44 @@ function resumPrice(){
         </table>
     `;
     section.appendChild(blocResume);
-    resumePriceScroll()
-    
+    getAllPrice();
 
+    
     let reset = document.getElementById("resetButton");
     reset.addEventListener('click',() =>{
         if(confirm('La totalitée de votre panier sera effacée, etes-vous sur?')){
             localStorage.clear();
             refresh()
         }
-
-        
     });
-    getAllPrice();
-
+    
+    resumePriceScroll();
 
 }
 
-// scroll function----------------------------------------------------------------
 function resumePriceScroll(){
-	window.addEventListener("scroll", function(){
 
-    // recuperer la hauteur par rapport au margine de la fenetre
-	// let	windowHeight = document.documentElement.clientHeight;/*hauteur de la fenetre*/
-    // console.log('hauteur: '+windowHeight);    
-    // console.log('hauteur offset: '+window.pageYOffset);
 
-		if (window.pageYOffset > 150 /*&& window.pageYOffset < 700*/ ) {
-            document.getElementById('resume-price').classList.add("scroll");
-		}
-        else{
-            document.getElementById('resume-price').classList.remove("scroll");
-            // recuperer la hauteur du formulaire pour la donnée comme limite au bloc de prix
 
-        }
-	}, false);
+        window.addEventListener("scroll", function(){
+            if (window.pageYOffset > 150 && document.documentElement.clientWidth> 1400 ) {
+                document.getElementById('resume-price').classList.add("scroll");
+            }
+            else{
+                document.getElementById('resume-price').classList.remove("scroll");
+                // recuperer la hauteur du formulaire pour la donnée comme limite au bloc de prix
+            }
+        }, false);// fin event Scroll
 }
+
+
+
 
 // form  function----------------------------------------------------------------
 function form(){
 
     let form = document.createElement('form');
-        form.classList.add('col-md-8','bg-white','forumlaire-panier')
+        form.classList.add('col-xxl-8','bg-white','forumlaire-panier')
 
 
     let lastName= document.createElement('input');
@@ -662,7 +693,7 @@ if(value1Length||value2Length||value3Length||value4Length||value5Length){
             localStorage.setItem("orderId", value.orderId);
             localStorage.setItem("contact", JSON.stringify(data.contact));
 
-            // setTimeout(()=>{document.location.href="commandConfirm.html";}, 500);//redirection apres 0.5sec
+            setTimeout(()=>{document.location.href="commandConfirm.html";}, 500);//redirection apres 0.5sec
             
         })//2dn then
         
