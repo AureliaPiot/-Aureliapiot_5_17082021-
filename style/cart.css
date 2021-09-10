@@ -98,13 +98,6 @@ fieldset span{
     content :"email invalide";
     color: rgb(190, 0, 0);
 }
-/* @media screen and (max-width:1350px) {
-.product-section{
-    padding: 5px;
-}
-
-    
-} */
 @media screen and (min-width: 1449px){
     .resume-price {
         top: 150px;
@@ -121,7 +114,8 @@ fieldset span{
 }
 @media screen and (max-width: 1400px){
     .resume-price{
-        /* width: 80%; */
+        width: 60%;
+        margin: 30px auto;
         padding: 1rem;
         position: initial;
 
