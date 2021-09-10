@@ -66,7 +66,6 @@ function form(){
         object.element.placeholder = object.placeholder;
         object.element.required = object.required;
 
-        // console.log(object.element);
         document.getElementById(object.parent).appendChild(object.element);
     };
 
@@ -99,9 +98,8 @@ function form(){
     let cityInput = document.getElementsByName("city")[0];
     let emailInput = document.getElementsByName("email")[0]; 
 
-    console.log(cityInput.length)
-    console.log(addressInput)
-
+    // console.log(addressInput.parentNode);
+    // console.log(lastNameInput.value.length)
 
     
     formIsValid(lastNameInput,firstNameInput,addressInput,cityInput,emailInput);//validation du formulaire
@@ -117,114 +115,89 @@ function form(){
 //FormIsValid function----------------------------------------------------------------
 function formIsValid(param1,param2,param3,param4,param5){
 
-    let value1Length = param1.value.length == 0;
-    let value2Length = param2.value.length == 0;
-    let value3Length = param3.value.length == 0;
-    let value4Length = param4.value.length == 0;
-    let value5Length = param5.value.length == 0;
+    //faire un regex: vzrifier si il a au moin une lettre dans les champs
 
     // Seul regex pour l'email, revois true ou false
     let emailValide = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(param5.value);// test de la structure de l'email (a voir https://regexr.com/3e48o)
-
-    // console.log(value1Length+"+"+value2Length+"+"+value3Length+"+"+value4Length+"+"+value5Length)
+    let containALetter = /^([\w]{1,})(.+)$/; // pour obliger au moin UN caractere alphabetique ou chiffre
+    // console.log(containALetter.test(param1.value));
 
     
-// si UNE de ces valeur est vrais (donc = 0) alors :
-if(value1Length||value2Length||value3Length||value4Length||value5Length){
-        //
-        if(value1Length){
-            param1.classList.add("invalid");
-            document.getElementById('groupLastName').classList.add("invalid-message");   
-        }else if(!value1Length){
-            param1.classList.add("valid");
-                if(param1.classList.contains("invalid")){
-                    param1.classList.remove("invalid");
-                    document.getElementById('groupLastName').classList.remove("invalid-message");
-                }
-        }
-        if(value2Length){
-            param2.classList.add("invalid");
-            document.getElementById('groupFirstName').classList.add("invalid-message");        
-        }else if(!value2Length){
-            param2.classList.add("valid");
-                if(param2.classList.contains("invalid")){
-                    param2.classList.remove("invalid");
-                    document.getElementById('groupFirstName').classList.remove("invalid-message");
-                }
-        } 
-        if(value3Length){
-            param3.classList.add("invalid");
-            document.getElementById('groupAddress').classList.add("invalid-message");
-        }else if(!value3Length){
-            param3.classList.add("valid");
-                if(param3.classList.contains("invalid")){
-                    param3.classList.remove("invalid");
-                    document.getElementById('groupAddress').classList.remove("invalid-message");
-                }
-        }
-        if(value4Length){
-            param4.classList.add("invalid");
-            document.getElementById('groupCity').classList.add("invalid-message");
-        }else if(!value4Length){
-            param4.classList.add("valid");
-            if(param4.classList.contains("invalid")){
-                param4.classList.remove("invalid");
-                document.getElementById('groupCity').classList.remove("invalid-message");
-            }
-        }
-        if(value5Length){
-            param5.classList.add("invalid");
-            document.getElementById('groupEmail').classList.add("invalid-message");
-        }else if(!value5Length){
-            param5.classList.add("valid");
-            if(param5.classList.contains("invalid")){
-                param5.classList.remove("invalid");
-                document.getElementById('groupEmail').classList.remove("invalid-message");
-            }
-        }
-    }//fin if si toute les longueurs = 0
+// si UNE de ces valeur est = 0 alors :
+if(param1.value.length == 0||param2.value.length == 0||param3.value.length == 0||param4.value.length == 0||param5.value.length == 0 ||
+    !containALetter.test(param1.value) || !containALetter.test(param2.value) || !containALetter.test(param3.value)|| !containALetter.test(param4.value) || !emailValide ){
 
-    else if(!emailValide){
-        param5.classList.add("invalid-email");
-        document.getElementById('groupEmail').classList.add("invalid-message");
+    verifInputs(param1);
+    verifInputs(param2);
+    verifInputs(param3);
+    verifInputs(param4);
+    verifInputs(param5);
+    verifInputEmail(param5);
+
+    function verifInputs(param){
+    console.log(containALetter.test(param.value));
+
+        if(param.value.length == 0 || containALetter.test(param.value) == false){        
+            param.classList.add("invalid");
+            param.parentNode.classList.add("invalid-message");   
+        }else{
+            param.classList.add("valid");
+                if(param.classList.contains("invalid")){
+                    param.classList.remove("invalid");
+                    param.parentNode.classList.remove("invalid-message");
+                    
+                }
+        }
+    }
+    function verifInputEmail(param){
+
+        if(!emailValide){        
+            param.classList.add("invalid");
+            param.parentNode.classList.add("invalid-message");   
+        }
+        else{
+            param.classList.add("valid");
+            if(param.classList.contains("invalid")){
+               console.log("yes");
+                param.classList.remove("invalid");
+                param.parentNode.classList.remove("invalid-message");
+                
+            }
+        }
+    }
+
+
+       
+    // }//fin if si toute les longueurs = 0
+
+    // else if(!emailValide){
+    //     param5.classList.add("invalid-email");
+    //     document.getElementById('groupEmail').classList.add("invalid-message");
 
 
 
 
     }else{//si le formulaire est valide on ajoute l'effet visuel pour montrer que les champs sont accepetés et on recupe les info puis on les post
-        if(param1.classList.contains("invalid")){
-            param1.classList.remove("invalid");
-            document.getElementById('groupLastName').classList.remove("invalid-message");
-        }
-        if(param2.classList.contains("invalid")){
-            param2.classList.remove("invalid");
-            document.getElementById('groupFirstName').classList.remove("invalid-message");
-        }
-        if(param3.classList.contains("invalid")){
-            param3.classList.remove("invalid");
-            document.getElementById('groupAddress').classList.remove("invalid-message");
-        }
-        if(param4.classList.contains("invalid")){
-            param4.classList.remove("invalid");
-            document.getElementById('groupCity').classList.remove("invalid-message");
-        }
-        if(param5.classList.contains("invalid")){
-            param5.classList.remove("invalid");
-            document.getElementById('groupEmail').classList.remove("invalid-message");
-        }
+
+        containinvalide(param1);
+        containinvalide(param2);
+        containinvalide(param3);
+        containinvalide(param4);
+        containinvalide(param5);
+
         param1.classList.add("valid");
         param2.classList.add("valid");
         param3.classList.add("valid");
         param4.classList.add("valid");
         param5.classList.add("valid");
 
+        function containinvalide(param){
+            if(param.classList.contains("invalid")){        
+                param.classList.remove("invalid");
+                param.parentNode.classList.remove("invalid-message");   
+            }
+        }
 
-    // -----------------------------------------------
-        let value1 = param1.value;
-        let value2 = param2.value;
-        let value3 = param3.value;
-        let value4 = param4.value;
-        let value5 = param5.value;
     //-----------
         let arrayId=[];
         for(let i=0; i < localStorage.length; i++){//on push les id des produits
@@ -240,21 +213,22 @@ if(value1Length||value2Length||value3Length||value4Length||value5Length){
     //--recuperation des donnée dans un objet java script
         let data ={
                 contact :{
-                    firstName: value2,
-                    lastName: value1,
-                    address: value3,
-                    city: value4,
-                    email: value5,
+                    firstName: param2.value,
+                    lastName: param1.value,
+                    address: param3.value,
+                    city: param4.value,
+                    email: param5.value,
                     price:getAllPrice()
                 },
                 'products':arrayId
             }
 
+            // console.log('yes');
         post(data);
 
 
-    }
-}
+    }//fin else
+}//fin function formIsValid
 
 //function post----------------------
 function post(data){

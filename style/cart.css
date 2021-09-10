@@ -88,7 +88,7 @@ fieldset span{
     position: relative;
 }
 .invalid{
-    border: 1px rgb(190, 0, 0) solid;;
+    border: 1px rgb(190, 0, 0) solid;
 }
 .invalid-message::after{
     content :"champ vide";
