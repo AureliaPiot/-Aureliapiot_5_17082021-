@@ -1,10 +1,7 @@
 // console.log('ici?');
 const section = document.getElementById('section-product');
 
-
-
 //verification si le serveur est allumer----------------------------------------------------------------
-
 const verifFetch =
     
     fetch('http://localhost:3000/api/cameras') 
@@ -25,58 +22,18 @@ const verifFetch =
                 creationDuTableau();
                 resumPrice()
                 form(); 
-                // resumePriceScroll();
-	
-                // if(document.documentElement.clientWidth > 1400){
-                //     resumePriceScroll();
-                //     console.log(' width de depar yes')
-                // }// fin if dans le else
-
-                // window.addEventListener("resize", function(event) {    
-                //     let width =   window.innerWidth;
-                //     if(width > 1400){
-                //         resumePriceScroll();
-                //         console.log('yes ' + width)
-                //         return
-
-                //     }else{
-                //         console.log('no '+ width)
-                //         return
-                //     }
-                // });
-           
-                // window.addEventListener("resize", function(event) {    
-                //     let width =   window.innerWidth;
-                //     if(document.documentElement.clientWidth> 1400){
-                //         resumePriceScroll();
-                //         console.log('yes ' + document.documentElement.clientWidth)
-                //         return
-
-                //     }else{
-                //         console.log('no '+ document.documentElement.clientWidth)
-                //         return
-                //     }
-                // });
-            
-            
+ 
 
             }//fin else
         }       
     })
     .catch(function(err){
         errServ()
-    })
-    
-    
-    ;
-
-
-
-
-
+    });
 
     // console.table(verifFetch);   
     
+
 //declaration des fonctions____________________________________________________________________________________________________________
 
 //Message error serveur----------------------------------------------------------------
@@ -91,6 +48,7 @@ function errServ(){
 }
 
 //Message panier vide----------------------------------------------------------------
+
 function panierVide(){
     let message = document.createElement('div');
 message.classList.add('panier-vide');
@@ -517,9 +475,6 @@ function resumePriceScroll(){
 
 
 //     })
-
-
-
 
 // }
 

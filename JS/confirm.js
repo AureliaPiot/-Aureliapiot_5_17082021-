@@ -23,9 +23,7 @@ if(localStorage.key(0)== "contact" || localStorage.key(0) == "orderId" ){
         <p>Bonjour ${firstName} ${lastName},<br> votre commande <strong>${orderId}</strong> de <strong>${price}€</strong>, vous sera bientot envoyer à l'adresse: ${address} à ${city}.</p>
         
         `;
-                
-        //le localStorage est clear apres 5sec
-        // setTimeout(()=>{localStorage.clear();}, 5000);
+
 }
 else{
         card.innerHTML=`

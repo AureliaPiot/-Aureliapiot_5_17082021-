@@ -15,13 +15,6 @@ else{
     getProducts(product);
 }
 
-
-
-
-
-
-
-
 function getProducts(productToCall){
 
     fetch('http://localhost:3000/api/' + productToCall) 
@@ -31,8 +24,6 @@ function getProducts(productToCall){
             if(res.ok){
             //si le "ok" de reponse est "true", alors:    
                 //  console.log(res); // ici on peut voir ce que la reponse contient
-                //  console.log(get()); // ici on peut voir ce que la reponse contient
-
                 return res.json();// tu me retourne la reponse au format json.
             }
             

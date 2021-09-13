@@ -55,7 +55,7 @@ function form(){
     let inputFirstName = new Input("input","form-control","firstName","firstName","text","Prenom",true,'groupFirstName');
     let inputAddress = new Input("input","form-control","address","address","text","Adresse",true,'groupAddress');    
     let inputCity = new Input("input","form-control","city","city","text","Ville",true,'groupCity');  
-    let inputEmail = new Input("input","form-control","email","email","text","email",true,'groupEmail');   
+    let inputEmail = new Input("input","form-control","email","email","email","email",true,'groupEmail');   
 
     function CreatElement(object){
         
@@ -75,55 +75,41 @@ function form(){
     CreatElement(inputCity);
     CreatElement(inputEmail);
 
-    let btnForm =document.createElement('button');
+
+
+    let btnForm = document.createElement('button');
     btnForm.classList.add('btn','btn-primary','col-5','mx-auto');
     btnForm.id="form_submit";
     btnForm.innerText="Acheter"
     document.getElementById('fieldset').appendChild(btnForm);
 
     
- 
-
-
-
-
-
-
     btnForm.addEventListener('click',function(event){
-    event.preventDefault()
+        event.preventDefault()
 
-    let lastNameInput = document.getElementsByName("lastName")[0];
-    let firstNameInput = document.getElementsByName("firstName")[0];
-    let addressInput = document.getElementsByName("address")[0];
-    let cityInput = document.getElementsByName("city")[0];
-    let emailInput = document.getElementsByName("email")[0]; 
+        let lastNameInput = document.getElementsByName("lastName")[0];
+        let firstNameInput = document.getElementsByName("firstName")[0];
+        let addressInput = document.getElementsByName("address")[0];
+        let cityInput = document.getElementsByName("city")[0];
+        let emailInput = document.getElementsByName("email")[0]; 
 
-    // console.log(addressInput.parentNode);
-    // console.log(lastNameInput.value.length)
-
-    
-    formIsValid(lastNameInput,firstNameInput,addressInput,cityInput,emailInput);//validation du formulaire
-
-
+        
+        formIsValid(lastNameInput,firstNameInput,addressInput,cityInput,emailInput);//validation du formulaire
     })
-
-
-
 
 }
 
 //FormIsValid function----------------------------------------------------------------
 function formIsValid(param1,param2,param3,param4,param5){
 
-    //faire un regex: vzrifier si il a au moin une lettre dans les champs
-
-    // Seul regex pour l'email, revois true ou false
-    let emailValide = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(param5.value);// test de la structure de l'email (a voir https://regexr.com/3e48o)
+    //Regex
     let containALetter = /^([\w]{1,})(.+)$/; // pour obliger au moin UN caractere alphabetique ou chiffre
-    // console.log(containALetter.test(param1.value));
+    let emailValide = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(param5.value);// test de la structure de l'email (a voir https://regexr.com/3e48o)
+
 
     
-// si UNE de ces valeur est = 0 alors :
+// si UNE de ces valeur est False alors :(doc =0 ou ne comporte pas de lettre/chiffre)
+//alors on gere leur affichage, 
 if(param1.value.length == 0||param2.value.length == 0||param3.value.length == 0||param4.value.length == 0||param5.value.length == 0 ||
     !containALetter.test(param1.value) || !containALetter.test(param2.value) || !containALetter.test(param3.value)|| !containALetter.test(param4.value) || !emailValide ){
 
@@ -131,8 +117,8 @@ if(param1.value.length == 0||param2.value.length == 0||param3.value.length == 0|
     verifInputs(param2);
     verifInputs(param3);
     verifInputs(param4);
-    verifInputs(param5);
     verifInputEmail(param5);
+
 
     function verifInputs(param){
     console.log(containALetter.test(param.value));
@@ -150,52 +136,41 @@ if(param1.value.length == 0||param2.value.length == 0||param3.value.length == 0|
         }
     }
     function verifInputEmail(param){
-
-        if(!emailValide){        
+        if(param.value.length == 0 ){        
+            param.parentNode.classList.remove("invalid-email");
             param.classList.add("invalid");
-            param.parentNode.classList.add("invalid-message");   
+            param.parentNode.classList.add("invalid-message");
+        }
+        else if(!emailValide){        
+            param.classList.add("invalid");
+            param.parentNode.classList.add("invalid-email");   
         }
         else{
             param.classList.add("valid");
+            console.log("yes");
             if(param.classList.contains("invalid")){
-               console.log("yes");
                 param.classList.remove("invalid");
-                param.parentNode.classList.remove("invalid-message");
+                param.parentNode.classList.remove("invalid-email");
                 
             }
         }
     }
 
+    }else{//si le formulaire est valide on ajoute l'effet visuel pour montrer que les champs sont accepetés et on recupe les infos, puis on les post
 
-       
-    // }//fin if si toute les longueurs = 0
+        valide(param1);
+        valide(param2);
+        valide(param3);
+        valide(param4);
+        valide(param5);
 
-    // else if(!emailValide){
-    //     param5.classList.add("invalid-email");
-    //     document.getElementById('groupEmail').classList.add("invalid-message");
-
-
-
-
-    }else{//si le formulaire est valide on ajoute l'effet visuel pour montrer que les champs sont accepetés et on recupe les info puis on les post
-
-        containinvalide(param1);
-        containinvalide(param2);
-        containinvalide(param3);
-        containinvalide(param4);
-        containinvalide(param5);
-
-        param1.classList.add("valid");
-        param2.classList.add("valid");
-        param3.classList.add("valid");
-        param4.classList.add("valid");
-        param5.classList.add("valid");
-
-        function containinvalide(param){
+        function valide(param){
             if(param.classList.contains("invalid")){        
                 param.classList.remove("invalid");
                 param.parentNode.classList.remove("invalid-message");   
             }
+            param.classList.add("valid");
+            
         }
 
     //-----------
@@ -257,7 +232,7 @@ function post(data){
     })//2dn then
     
     .catch(function(err){
-        console.log('erreur lors de la requete');
+        console.log('erreur de requete');
 
     })
 
