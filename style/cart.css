@@ -177,6 +177,10 @@ fieldset span{
     .bloc-2 *{
         margin-top: 5px;
     }
+
+    form .row{
+        flex-direction: column;
+    }
     
 }
 @media screen and (max-width: 400px){
