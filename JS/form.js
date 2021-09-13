@@ -1,7 +1,7 @@
 function form(){
 
     let form = document.createElement('form');
-        form.classList.add('col-xxl-8','bg-white','forumlaire-panier')
+        form.classList.add('col-xxl-8','bg-white','forumlaire-panier','border')
 
         form.innerHTML=`
         <fieldset id="fieldset" class="row">

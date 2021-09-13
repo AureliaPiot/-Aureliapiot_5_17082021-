@@ -15,9 +15,29 @@
 
 
 
-.table-products{
-    padding: 1rem;
-    margin-bottom: 2.5rem;
+ .object-bloc{
+    padding: 2rem;
+}
+.bloc-text{
+    margin-left: 15px;
+}
+.bloc-text h3{
+    text-decoration: underline;
+}
+.bloc-text p{
+    width: 95%;
+}
+.bloc-2 *{
+    text-align: center;
+}
+
+input[type="number"] {
+    padding: 0px;
+
+}
+select {
+    padding: 3px;
+    min-width: 120px;
 }
 
 tr{
@@ -26,7 +46,7 @@ tr{
 
 .block-photo{
     /* height: 5rem; */
-    width: 10rem;
+    width: 14vw;
     background-color: grey;
 }
 
@@ -70,7 +90,7 @@ tr{
 
 .forumlaire-panier{
     padding: 3rem;
-    margin-bottom: 2.5rem;
+    margin-top: 2.5rem;
 
 }
 .forumlaire-panier .form-group{
@@ -98,6 +118,10 @@ fieldset span{
     content :"email invalide";
     color: rgb(190, 0, 0);
 }
+
+
+
+
 @media screen and (min-width: 1449px){
     .resume-price {
         top: 150px;
@@ -118,6 +142,47 @@ fieldset span{
         margin: 30px auto;
         padding: 1rem;
         position: initial;
+    }
+}
+
+@media screen and (max-width: 950px){
+    .object-bloc {
+        flex-direction: column;
+    }
+    .bloc-2{
+        justify-content: space-evenly;
+        margin-top: 20px;
+    }
+}
+@media screen and (max-width: 600px){
+    .resume-price{
+        width: 100%;
+    }
+    .object-bloc {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .block-photo{
+        width: 35vw;
+    }
+    .bloc-text p{
+        display: none;
+    }
+    .bloc-1, .bloc-2{
+        flex-direction: column;
+    }
+    .bloc-2{
+        margin-top: 0;
+    }
+    .bloc-2 *{
+        margin-top: 5px;
+    }
+    
+}
+@media screen and (max-width: 400px){
+    .object-bloc {
+        flex-direction: column;
+        text-align: center;
 
     }
 }

@@ -135,3 +135,8 @@ footer{
     }
 }
 
+@media screen and (max-width: 600px){
+    .section-index{
+        padding: 5px !important;
+    }
+}
