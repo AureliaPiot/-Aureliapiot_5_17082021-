@@ -45,22 +45,14 @@ function getProduct(param1,param2){
       for( let i= 0; i< value[valueOption].length; i++ ){//ici on check la premiere option
           if(i==0){
              options +=`
-            <option  id="option${i}" name="option" value="${value[valueOption][i]}" selected >${value[valueOption][i]}</option>
+                <option  id="option${i}" name="option" value="${value[valueOption][i]}" selected >${value[valueOption][i]}</option>
             `;
-            // options +=`
-            // <input type="radio" id="option${i}" name="option" value="${value[valueOption][i]}" checked >
-            // <label for="option${i}">${value[valueOption][i]}</label>
-            // `;
             // console.log(i);
 
           }else{
               options +=` 
-            <option  id="option${i}" name="option" value="${value[valueOption][i]}">${value[valueOption][i]}</option>
+                <option  id="option${i}" name="option" value="${value[valueOption][i]}">${value[valueOption][i]}</option>
             `;
-            // options +=`
-            // <input type="radio" id="option${i}" name="option" value="${value[valueOption][i]}">
-            // <label for="option${i}">${value[valueOption][i]}</label>
-            // `;
         // console.log(i);
           }
       }
