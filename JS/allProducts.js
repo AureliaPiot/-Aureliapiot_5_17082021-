@@ -1,10 +1,6 @@
 let Url = new URLSearchParams(document.location.search.substring(1));
 let product = Url.get("product"); 
-// console.log(product);
-// let product= 'cameras';
-// let product= 'teddies';
-
-
+  
 let section = document.getElementById('section-product');
 if(product == null){
     product= 'cameras';
@@ -91,11 +87,8 @@ function getProducts(productToCall){
             let content = document.createElement('div');
             content.classList.add('contentError')
             content.innerHTML='serveur indisponible';
-            section.appendChild(content);
-            
-            // console.log(err.message);
-
-            
+            section.appendChild(content);          
+            // console.log(err.message); 
         });
 }
 
