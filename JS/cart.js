@@ -2,14 +2,12 @@
 const section = document.getElementById('section-product');
 
 //verification si le serveur est allumer----------------------------------------------------------------
+
 const verifFetch =
     
     fetch('http://localhost:3000/api/cameras') 
     .then(function(res){
         // console.table(res);
-        if (!res.ok) {
-            console.log(`Erreur HTTP ! statut : ${res.status}`);
-          }
         if(res.ok){
             
             if( localStorage.length == 0 || localStorage.key(0)== "contact" || localStorage.key(0) == "orderId" ){
@@ -28,6 +26,7 @@ const verifFetch =
         }       
     })
     .catch(function(err){
+        console.log(err);
         errServ()
     });
 
@@ -351,4 +350,3 @@ function resumePriceScroll(){
             }
         }, false);// fin event Scroll
 }
-
