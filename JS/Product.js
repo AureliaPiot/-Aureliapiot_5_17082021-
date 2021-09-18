@@ -1,7 +1,7 @@
 let Url = new URLSearchParams(document.location.search.substring(1));
 let id = Url.get("id"); 
 let product= Url.get("p")
-// console.log(id);
+
 let section = document.getElementById('section-product');
 // --------------------------------------------
 
@@ -106,32 +106,28 @@ function getProduct(param1,param2){
             // console.log(newPrice);
         });//fin event
 
-    console.log( "localLength= " + localStorage.length)
-
         btnCart.addEventListener('click', (event) => {//au click on verifi la valeur avec une fonction 
 
             
 
 
             verifQuantite(quantites.value);
-            console.log(verifQuantite(quantites.value));// retourne un boolean
+            console.log('la quantité est elle valide ? = '+verifQuantite(quantites.value));// retourne un boolean
 
 
             if( verifQuantite(quantites.value) == false ){//si la valeur de quantite est fausse et qu'il y a une virgule  alors on affiche juste un message 
-            // alert('valeur invalide');
-            let message ="valeur incorrect";
-            visualerror(message)
-            // faire un affichage
-            return
+                let message ="valeur incorrect";
+                visualerror(message)
+                return
             }
-            else{    //sinon on compar tout les index
+            else{    //sinon on compare tout les index
                 
             
                 let chosenOptionIndex;
                 for( let i= 0; i< value[valueOption].length; i++ ){
                     if(document.getElementById(`option${i}`).selected){
                         chosenOptionIndex = i ; //ici on recupere l'option qui a ete checked apres les avoirs toutes verifier
-                        console.log('option trouver! = ' + document.getElementById(`option${i}`).value);
+                        console.log('option = ' + document.getElementById(`option${i}`).value + "| a l'index = " + i);
                     }
                 }
 
@@ -148,9 +144,9 @@ function getProduct(param1,param2){
                         'quantites':quantites.value,
                         'unitPrice':price
                     }
-                    
 
                     localStorage.setItem(lenght,JSON.stringify(item));
+
                     let message ="Ajout de "+quantites.value+" "+value.name+" ,Option: " +value[valueOption][chosenOptionIndex]+ "  dans le panier";
                     visualAdd(message);
 
@@ -162,13 +158,15 @@ function getProduct(param1,param2){
                     for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
 
                         let key = localStorage.key(i);//la cle a l'index 0 n'est pas forcement egal a 0, ils sont rangé bizarement dans le localStorage
-                        console.log("cle = "+key)
-                        console.log("i= "+i)
+                        // console.log("cle = "+key)
+                        // console.log("i= "+i)
+                        console.log("comparaison des valeurs à celles deja enregistrer tour "+ i +" cle " + key)
+
 
                         let item = localStorage.getItem(key);//on recupe la valeur de l'item a comparer avec "key" et non "I" car les cle ne sont pas forcement dans l'ordre (ex 1-2-3 ect) alors que I , oui.
-                        // let itemSplit = item.split("&")//on casse la valeur qui contient les info a comparer
+                        
                         let itemSplit = JSON.parse(item);
-                        console.table(itemSplit);                    
+                        // console.table(itemSplit);                    
                         //--------------------------------------------------------------------------
                         
 
@@ -184,9 +182,8 @@ function getProduct(param1,param2){
                         */
                             // console.log("les valeur sont bien similaire ");
                             let newQuantity = Number(itemSplit.quantites) + Number(quantites.value); //parseInt() = pour les nombres entier, Number() = si la varaiable a un nombre a virgule
-                            console.log("on calcul  = "+ itemSplit.quantites+" + "+ quantites.value +" = "+ newQuantity);
-                            console.log(newQuantity)
-                          
+                            console.log("trouver !  = la cle  " + key +" existe deja");
+                            console.log("on ajoute  = "+ itemSplit.quantites+" + "+ quantites.value +" = "+ newQuantity);                         
                             ///conditionnel pour pour ne pas que la quantité depasse 100 dans la valeur stocker
                                 if(newQuantity <= 100){
 
@@ -205,7 +202,7 @@ function getProduct(param1,param2){
 
                                 }
                                 else{
-                                    // console.log("quantite maximal atteinte");
+                                    console.log("quantite maximal atteinte");
                                     let message ="quantite maximal atteinte pour ce produit";
                                     visualerror(message);
 
@@ -225,16 +222,18 @@ function getProduct(param1,param2){
 
 
 
-                    //DOUBLE BOUCLE COMPARATIF DES CLE du localStorage____________________________________________________________________________
+                    //BOUCLE COMPARATIF DES CLE du localStorage____________________________________________________________________________
 
 
-                    for(let i =0   ; i < localStorage.length ; i++ ){// la on execute une boucle le nombre de fois le nombre d'element dedans, par ex: 3)
+                   
 
-                        for(let j = 0 ; j <= localStorage.length ; j++ ){// execute la boucle une seconde fois pour comparer si tout les chiffres existent bien( si il ya 3 element dans le localStorage, on verifie que les cle corresponde a 0,1,2 et 3 avec le signe égale)
-                            let itemIndex = localStorage.getItem(j);
-                            // console.log(" clef verifier = "+ j);//verification de clef
+                        for(let j = 0 ; j <= localStorage.length ; j++ ){// si il ya 3 element dans le localStorage, on verifie que les cle correspondent a 0,1,2 et 3 avec le signe égale)
+                            
+                            let itemIndex = localStorage.getItem(j);//on verifie si le clef existe bien a ce numero, si elle retourn null, c'est qu'elle existe pas
+                            console.log(" clef verifier = "+ j +" = " + itemIndex);//verification de clef
+
                             if(itemIndex == null){//si parmis les chiffres un est sauté, on le recupere pour l'attribué comme clé,sinon il recupere le prochain chiffre (qu'il voit comme manquant) car il ya le "="
-                                // console.log('produit de type = ' + product);
+                                
                                 console.log(" produit n° "+ j+" ajouté");
                                 let indexManquant = j;
                                 let newItem={
@@ -249,7 +248,9 @@ function getProduct(param1,param2){
                                 let message ="Ajout de "+quantites.value+" "+value.name+ " ,Option: " +value[valueOption][chosenOptionIndex]+" dans le panier";
                                 visualAdd(message);
                                 
-                                return indexManquant;
+
+                                return ;
+
                             }
 
 
@@ -257,7 +258,7 @@ function getProduct(param1,param2){
    
    
 
-                    }; //fin boucle 1  
+  
                 };//fin else 
             
             }//fin else de verification
