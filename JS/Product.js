@@ -268,10 +268,8 @@ function getProduct(param1,param2){
     })//2dn then
     
     .catch(function(err){
-        let content = document.createElement('div');
-            content.classList.add('contentError')
-            content.innerHTML='serveur indisponible';
-            section.appendChild(content);
+        serverInaccessible()
+        //dans le fichier navCart
             
             // console.log(err.message);
 
@@ -280,6 +278,9 @@ function getProduct(param1,param2){
 };// fin fonction getProduct
 
 //-----------------------------------------------------
+
+//-----------------------------------------------------
+
 function verifQuantite(target){
     let isNumberValid = target.match(/^([0-9]){1,3}$/);// regex pour evité les virgules)
     if(target <= 0 || target > 100 || isNumberValid == null ){
@@ -302,6 +303,8 @@ function visualAdd(param){
     main[0].insertBefore(block, section);
     setTimeout(function(){main[0].removeChild(block)},1000);
 }
+
+//-----------------------------------------------------
 
 function visualerror(param){
 

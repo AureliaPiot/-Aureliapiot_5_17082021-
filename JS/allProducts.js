@@ -84,11 +84,8 @@ function getProducts(productToCall){
 
         })
         .catch(function(err){
-            let content = document.createElement('div');
-            content.classList.add('contentError')
-            content.innerHTML='serveur indisponible';
-            section.appendChild(content);          
-            // console.log(err.message); 
+            serverInaccessible()
+            //dans le fichier navCart
         });
 }
 

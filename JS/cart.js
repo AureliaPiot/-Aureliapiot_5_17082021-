@@ -27,25 +27,14 @@ const verifFetch =
     })
     .catch(function(err){
         console.log(err);
-        errServ()
+        serverInaccessible()
+        //dans le fichier navCart
     });
 
     // console.table(verifFetch);   
     
 
 //declaration des fonctions____________________________________________________________________________________________________________
-
-//Message error serveur----------------------------------------------------------------
-
-function errServ(){
-    let content = document.createElement('div');
-    content.classList.add('contentError')
-    content.innerHTML='serveur indisponible';
-    section.appendChild(content);
-            
-
-}
-
 //Message panier vide----------------------------------------------------------------
 
 function panierVide(){

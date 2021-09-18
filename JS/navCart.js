@@ -25,4 +25,12 @@ window.onstorage =event=>{
 
 }
 // _________________________________________________________________
+//Message serverInacessible----------------------------------------------------------------
 
+function serverInaccessible(){
+    let content = document.createElement('div');
+    content.classList.add('contentError')
+    content.innerHTML='serveur indisponible';
+    section.appendChild(content);
+}
+// car commun a plusieurs fichiers
