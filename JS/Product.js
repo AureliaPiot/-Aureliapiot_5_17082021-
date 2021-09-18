@@ -278,7 +278,6 @@ function getProduct(param1,param2){
 };// fin fonction getProduct
 
 //-----------------------------------------------------
-
 //-----------------------------------------------------
 
 function verifQuantite(target){
@@ -303,9 +302,7 @@ function visualAdd(param){
     main[0].insertBefore(block, section);
     setTimeout(function(){main[0].removeChild(block)},1000);
 }
-
 //-----------------------------------------------------
-
 function visualerror(param){
 
     const block= document.createElement("div");
