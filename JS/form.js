@@ -140,19 +140,21 @@ if(param1.value.length == 0||param2.value.length == 0||param3.value.length == 0|
             param.parentNode.classList.remove("invalid-email");
             param.classList.add("invalid");
             param.parentNode.classList.add("invalid-message");
+            console.log("email vide");
         }
         else if(!emailValide){        
             param.classList.add("invalid");
             param.parentNode.classList.add("invalid-email");   
+            console.log("email invalide");
         }
-        else{
+        else if(param.value.length >0 && emailValide){
             param.classList.add("valid");
-            console.log("yes");
-            if(param.classList.contains("invalid")){
-                param.classList.remove("invalid");
-                param.parentNode.classList.remove("invalid-email");
+            param.classList.remove("invalid");
+            param.parentNode.classList.remove("invalid-message");
+            param.parentNode.classList.remove("invalid-email");
+            console.log("email valide");
                 
-            }
+
         }
     }
 
